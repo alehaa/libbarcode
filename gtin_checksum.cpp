@@ -2,12 +2,11 @@
 #include "gtin.h"
 
 
-/* checksum berechnet die Checksumme fuer GTIN-Codes. Wird diese Funktion
- * ohne Argumente aufgerufen, wird die Pruefsumme fuer den in this->data_gtin
- * befindlichen GTIN berechnet und die Pruefzimmer angehaengt. Wird
- * dagegen ein Pointer zu anderen Daten uebergeben, wird die darin
- * enthaltene Pruefsumme auf Richtigkeit getestet. Da zu diesem Zeitpunkt
- * evtl. auch ein Addon-Code in dem Array enthalten ist, muss die Laenge
+/* checksum berechnet die Checksumme fuer GTIN-Codes. Wird diese Funktion ohne
+ * Argumente aufgerufen, wird die Pruefsumme fuer den in this->data_gtin befind-
+ * lichen GTIN berechnet und die Pruefzimmer angehaengt. Wird dagegen ein
+ * Pointer zu anderen Daten uebergeben, wird die darin enthaltene Pruefsumme auf
+ * Richtigkeit getestet. Da zu diesem Zeitpunkt evtl. auch ein Addon-Code in dem Array enthalten ist, muss die Laenge
  * fuer den Datenbereich mit angegeben werden. */
 bool gtin::checksum () {
 	/* berechne die Pruefziffer. Gehe dafuer von rechts nach links durch das Array
@@ -45,9 +44,7 @@ bool gtin::checksum () {
 	p = &this->data_gtin[this->data_gtin_length - 1];
 	if (*p != 255) {
 		if (checksum == *p) return true;
-		else {
-			return false;
-		}
+		else return false;
 	} else {
 		*p = checksum;
 		return true;

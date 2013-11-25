@@ -25,10 +25,6 @@ void gtin::reset () {
 		this->data_addon_code = nullptr;
 		this->data_addon_code_length = 0;
 	}
-
-	this->gtin_buff_gs1_prefix = 0;
-	this->gtin_buff_section_articlenumber = 0;
-	this->gtin_buff_section_amount = 0;
 }
 
 

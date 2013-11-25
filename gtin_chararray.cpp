@@ -1,7 +1,7 @@
 /* include header files */
+#include <cmath>
 #include "gtin.h"
 
-#include <cmath>
 
 /* cstr_to_chararray ();
  * Diese Funktion ueberprueft, ob die Zeichenkette im ersten Argument nur aus
@@ -35,6 +35,7 @@ unsigned char * gtin::cstr_to_chararray (const char *p_data, unsigned char p_dat
 			/* loesche den bereits reservierten Datenbereich wieder */
 			delete[] buffer;
 
+			/* gebe nullptr zurueck */
 			return nullptr;
 		}
 	}

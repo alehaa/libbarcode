@@ -1,7 +1,6 @@
 /* include header files */
-#include "gtin.h"
-
 #include <cstring>
+#include "gtin.h"
 
 
 /* set_data();
@@ -25,66 +24,58 @@ bool gtin::set_data (const char* p_data, bool p_contains_checksum) {
 		 * keine Pruefziffer mitgegeben, muss diese Stelle noch abgezogen werden.
 		 * Erlaubt sind dann 7, 11, 12 und 13. */
 		if ((p_contains_checksum && (p_data_length == 8 || (p_data_length >= 12 && p_data_length <= 15) || p_data_length == 18)) || (!p_contains_checksum && (p_data_length == 7 || (p_data_length >= 11 && p_data_length <= 13)))) {
-			/* wie lang ist der GTIN? Ist ein Addon-Code vorhanden und wie lang ist dieser?
-			 * Wir wissen schon, dass es sich um eine gueltige Laenge handelt, somit muss
-			 * diese also nur noch den einzelnen Codes zugeordnet werden. Ein Addon-Code
-			 * gibt es nur bei 15 oder 18 stellen, da dieser nur uebergeben wird, wenn auch
-			 * eine Pruefziffer uebergeben wird. Zudem gibt es diesen nur bei GTIN-13 Codes.
-			 *  Bei allen anderen laengen ist kein Addon-Code vorhanden und die Laenge des
-			 * GTIN entspricht p_data_length. Wurde keine Pruefziffer uebergeben, so muss
-			 * noch 1 addiert werden. */
+			/* Pruefe mit Hilfe von p_data_length, ob ein Addon-Code mit uebergeben wurde
+			 * und wie lang dieser und der Datenbereich sind. */
 			this->data_addon_code_length = 0;
 			if (p_data_length == 15 || p_data_length == 18) {
+				/* Addon-Codes existieren nur bei GTIN-13-Codes. Die Laenge des Addon-Codes ist
+				 * somit ist die Laenge des Addon-Codes p_data_length - 13 und die Laenge des
+				 * GTIN fixiert auf 13. */
 				this->data_addon_code_length = p_data_length - 13;
 				this->data_gtin_length = 13;
 			} else {
+				/* Es ist kein Addon-Code vorhanden. Daher ist dessen Laenge 0 und die des GTIN
+				 * ist gleich p_data_length. */
 				this->data_gtin_length = p_data_length;
+
+				/* wenn keine Checksumme mit uebertragen wurde, dann erhoehe die Laenge des GTIN
+				 * um eins, da diese spaeter auch einen Speicherplatz benoetigt. */
 				if (!p_contains_checksum) this->data_gtin_length++;
 			}
 
-			/* Wandle den GTIN- Datenbereich aus p_data in Zahlen um. Pruefe dabei auch,
+			/* Wandle den GTIN-Datenbereich aus p_data in Zahlen um. Pruefe dabei auch,
 			 * dass es sich wirklich um Zahlen handelt. */
 			if ((this->data_gtin = this->cstr_to_chararray(p_data, this->data_gtin_length))) {
-				/* wenn eine checksumme mit uebergeben wurde, dann ueberpruefe diese und kopiere
-				 * danach evtl. auch einen Addon-Code. Wurde keine uebergeben, so ueberspringe
-				 * diesen Schritt. Ein Addon-Code kann dann ebenfalls nicht uebergeben worden
-				 * sein, weshalb diese Funktion dann erfolgreich beendet ist. */
-				if (p_contains_checksum) {
+				if (!p_contains_checksum) {
+					/* wenn keine checksumme uebergeben wurde, ist die Ueberpruefung der Eingabe
+					 * hiermit beendet und es kann ein return true erfolgen. */
+					return true;
+				} else {
+					/* Es wurde eine Checksumme mit uebertragen. Ueberpruefe diese auf ihre Richtig-
+					 * keit. */
 					if (this->checksum()) {
-						if (this->data_addon_code_length == 0) {
-							/* Es wurde kein Addon-Code mit uebergeben. Gebe daher true zurueck. */
+						if (this->data_addon_code_length <= 0) {
+							/* Es wurde kein Addon-Code mit uebergeben. Daher ist kein weiterer Check noetig
+							 * und die Funktion kann erfolgreich verlassen werden. */
 							return true;
 						} else {
-							/* Es wurde ein Addon-Code mit uebergeben. Soll dieser auch verarbeitet
-							 * werden? */
-							if (this->handle_addon_code) {
+							if (!this->handle_addon_code) {
+								/* Addon-Codes sollen nicht verarbeitet werden. Ignoriere diesen daher und
+								 * verlasse die Funktion erfolgreich. */
+								return true;
+							} else {
 								/* verarbeite den Addon-Code */
 								if (this->set_addon_code(&p_data[this->data_gtin_length])) return true;
-							} else {
-								/* der Addon-Code soll nicht verarbeitet werden, gebe daher true zurueck. */
-								return true;
 							}
 						}
 					}
-				} else {
-					return true;
 				}
 			}
 		}
 	}
 
+	/* An einer Stelle ist ein Fehler aufgetreten. */
 	return false;
-}
-
-
-/* get_data();
- * gibt die Daten aus this->data_gtin als cstring zurueck.
- * Die Endwanwendung muss dabei beachten, dass nur ein Pointer zurueckgegeben
- * wird, welcher nach erfolgreicher Verwendung mit delete[] geloescht werden
- * muss.
- */
-const char * gtin::get_data () {
-	return this->chararray_to_cstr(this->data_gtin, this->data_gtin_length);
 }
 
 
@@ -99,15 +90,36 @@ bool gtin::set_addon_code (const char *p_data) {
 	if (this->data_addon_code == nullptr) {
 		/* schaue wie lang p_data ist. */
 		unsigned int p_data_length = strlen(p_data);
+
+		/* es gibt nur Addon-Codes mit der Laenge 2 oder 5. Entspricht die Laenge nicht
+		 * diesen Werten, so ist ein fortfuehren der Funktion nicht moeglich. */
 		if (p_data_length == 2 || p_data_length == 5) {
+			/* Wandle p_data in Zahlen um. Pruefe dabei auch, ob es sich wirklich um Zahlen
+			 * handelt. */
 			if ((this->data_addon_code = this->cstr_to_chararray(p_data, p_data_length))) {
+				/* Die Daten wurden erfolgreich umgewandelt und gespeichert. Verlasse die
+				 * Funktion erfolgreich. */
 				this->data_addon_code_length = p_data_length;
 				return true;
 			}
 		}
 	}
 
+	/* An einer Stelle ist ein Fehler aufgetreten. */
 	return false;
+}
+
+
+/* get_data();
+ * gibt die Daten aus this->data_gtin als cstring zurueck.
+ * Die Endwanwendung muss dabei beachten, dass nur ein Pointer zurueckgegeben
+ * wird, welcher nach erfolgreicher Verwendung mit delete[] geloescht werden
+ * muss.
+ */
+const char * gtin::get_data () {
+	/* Eine Ueberpruefung, ob auch wirklich Daten gespeiuchert sind, muss nicht
+	 * erfolgen, da dies schon durch die aufgerufene Funktion erledigt wird. */
+	return this->chararray_to_cstr(this->data_gtin, this->data_gtin_length);
 }
 
 
@@ -118,5 +130,7 @@ bool gtin::set_addon_code (const char *p_data) {
  * muss.
  */
 const char * gtin::get_addon_code () {
+	/* Eine Ueberpruefung, ob auch wirklich Daten gespeiuchert sind, muss nicht
+	 * erfolgen, da dies schon durch die aufgerufene Funktion erledigt wird. */
 	return this->chararray_to_cstr(this->data_addon_code, this->data_addon_code_length);
 }

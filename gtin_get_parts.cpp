@@ -6,13 +6,14 @@
  * gibt die ersten 3 Stellen von this->data_gtin als short zurueck.
  */
 const short gtin::get_gtin_gs1_prefix () {
+	/* sind auch Daten in this->data_gtin gespeichert? */
 	if (this->data_gtin != nullptr) {
+		/* Nur GTIN8 und GTIN13 haben einen Laenderprefix. Dabei ist dieser nur beim
+		 * GTIN13 exakt definiert und wird auch nur in diesem ausgewertet. */
 		if (this->data_gtin_length == 13) {
-			if (this->gtin_buff_gs1_prefix == 0) {
-				this->gtin_buff_gs1_prefix = (short)this->chararray_to_int(this->data_gtin, 3);
-			}
-
-			return this->gtin_buff_gs1_prefix;
+			/* wandle die ersten 3 Ziffern aus this->data_gtin in einen short um und gebe
+			 * diesen zurueck. */
+			return (short)this->chararray_to_int(this->data_gtin, 3);
 		}
 	}
 
@@ -26,8 +27,10 @@ const short gtin::get_gtin_gs1_prefix () {
  * Typ zurueck.
  */
 const gtin::gtin_type gtin::get_gtin_type () {
+	/* ermittle den GS1-Prefix. Eine Ueberpruefung, ob auch tatsaechlich Daten in
+	 * this->data_gtin existieren, muss nicht erfolgen, da dies schon durch die
+	 * ermittlung des GS1-Prefix automatisch geschieht. */
 	short gs1_prefix = this->get_gtin_gs1_prefix();
-
 	if (gs1_prefix != -1) {
 		/* Storeinternal-Codes 200-299 */
 		if (gs1_prefix >= 200 && gs1_prefix <= 299) return gtin::gtin_type::STOREINTERNAL;
@@ -62,6 +65,7 @@ const gtin::gtin_type gtin::get_gtin_type () {
 		}
 	}
 
+	/* Es ist ein Fehler aufgetreten */
 	return gtin::gtin_type::ERR;
 }
 
@@ -70,17 +74,18 @@ const gtin::gtin_type gtin::get_gtin_type () {
  * gibt die Stellen 4-8 als int zurueck.
  */
 const int gtin::get_gtin_section_articlenumber () {
+	/* sind auch Daten in this->data_gtin gespeichert? */
 	if (this->data_gtin != nullptr) {
+		/* Nur GTIN8 und GTIN13 haben einen Laenderprefix. Dabei ist dieser nur beim
+		 * GTIN13 exakt definiert und wird auch nur in diesem ausgewertet. */
 		if (this->data_gtin_length == 13) {
-			if (this->gtin_buff_section_articlenumber == 0) {
-				this->gtin_buff_section_articlenumber = this->chararray_to_int(&this->data_gtin[3], 5);
-			}
-
-			return this->gtin_buff_section_articlenumber;
+			/* wandle die ersten 3 Ziffern aus this->data_gtin in einen short um und gebe
+			 * diesen zurueck. */
+			return (short)this->chararray_to_int(&this->data_gtin[3], 5);
 		}
 	}
 
-	/* Es konnte keine section article number ermittelt werden, also gebe -1 zurueck. */
+	/* Es konnten keine Daten aus dieser Section ermittelt werden, also gebe -1 zurueck. */
 	return -1;
 }
 
@@ -89,16 +94,17 @@ const int gtin::get_gtin_section_articlenumber () {
  * gibt die Stellen 9-12 als short zurueck.
  */
 const short gtin::get_gtin_section_amount () {
+	/* sind auch Daten in this->data_gtin gespeichert? */
 	if (this->data_gtin != nullptr) {
+		/* Nur GTIN8 und GTIN13 haben einen Laenderprefix. Dabei ist dieser nur beim
+		 * GTIN13 exakt definiert und wird auch nur in diesem ausgewertet. */
 		if (this->data_gtin_length == 13) {
-			if (this->gtin_buff_section_amount == 0) {
-				this->gtin_buff_section_amount = (short)this->chararray_to_int(&this->data_gtin[8], 4);
-			}
-
-			return this->gtin_buff_section_amount;
+			/* wandle die ersten 3 Ziffern aus this->data_gtin in einen short um und gebe
+			 * diesen zurueck. */
+			return (short)this->chararray_to_int(&this->data_gtin[8], 4);
 		}
 	}
 
-	/* Es konnte keine section article number ermittelt werden, also gebe -1 zurueck. */
+	/* Es konnten keine Daten aus dieser Section ermittelt werden, also gebe -1 zurueck. */
 	return -1;
 }

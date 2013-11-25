@@ -64,12 +64,6 @@ class gtin {
 		bool checksum ();
 
 		bool handle_addon_code = true;
-
-
-	private:
-		short gtin_buff_gs1_prefix = 0;
-		int gtin_buff_section_articlenumber = 0;
-		short gtin_buff_section_amount = 0;
 };
 
 #endif // LIBGTIN_H
