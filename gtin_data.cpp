@@ -17,8 +17,6 @@ bool gtin::set_data (const char* p_data, bool p_contains_checksum) {
 	/* wenn noch intern Daten gespeichert sind, so lasse keine neue Speicherung zu.
 	 * Es muss dann erst this->reset(); ausgefuehrt werden. */
 	if (this->data_gtin == nullptr) {
-		if (this->verbose) this->log_message("checking GTIN \"%s\" ...", p_data);
-
 		/* schaue wie lang p_data ist. */
 		unsigned int p_data_length = strlen(p_data);
 
@@ -53,40 +51,19 @@ bool gtin::set_data (const char* p_data, bool p_contains_checksum) {
 				 * sein, weshalb diese Funktion dann erfolgreich beendet ist. */
 				if (p_contains_checksum) {
 					if (this->checksum()) {
-						if (this->verbose) this->log_message("data is valid");
-
 						if (this->data_addon_code_length > 0) {
 							if (this->handle_addon_code) {
 								if (this->set_addon_code(&p_data[this->data_gtin_length])) return true;
 							} else {
-								if (this->verbose) this->log_message("skipping addon-code: disabled");
 								return true;
 							}
 						}
 					}
 				} else {
-					/* p_data is valid. */
-					if (this->verbose) {
-						this->log_message("skipping checksum check: contains no checksum");
-						this->log_message("data is valid");
-					}
-
 					return true;
 				}
-
-			/* es wird kein else benoetigt, da bereits am Ende der Funktion ein return false;
-			 * steht und this->validate_data() eine Fehlermeldung ausgegeben hat. */
-			}
-		} else {
-			if (this->verbose) {
-				/* length of p_data was not ok */
-				if (p_contains_checksum) this->log_message("failed to parse data: GTIN has no valid length with %u chars. It needs to be 8, 12, 13, 14, 15 or 18.", p_data_length);
-				else this->log_message("failed to parse data: GTIN has no valid length with %u chars. It needs to be 7, 11, 12 or 13", p_data_length);
 			}
 		}
-	} else {
-		/* this->data ist noch durch andere Daten belegt. */
-		if (this->verbose) this->log_message("Can't execute set_data(): internal memory is not free.");
 	}
 
 	return false;
@@ -113,21 +90,14 @@ bool gtin::set_addon_code (const char *p_data) {
 	/* wenn noch intern Daten gespeichert sind, so lasse keine neue Speicherung zu.
 	 * Es muss dann erst this->reset(); ausgefuehrt werden. */
 	if (this->data_addon_code == nullptr) {
-		if (this->verbose) this->log_message("checking addon-code \"%s\" ...", p_data);
-
 		/* schaue wie lang p_data ist. */
 		unsigned int p_data_length = strlen(p_data);
 		if (p_data_length == 2 || p_data_length == 5) {
 			if ((this->data_addon_code = this->cstr_to_chararray(p_data, p_data_length))) {
 				this->data_addon_code_length = p_data_length;
-				if (this->verbose) this->log_message("addon-code is valid");
 				return true;
 			}
-		} else {
-			if (this->verbose) this->log_message("failed to parse addon-code: GTIN has invalid length with %u chars. It needs to be 2 or 5.", p_data_length);
 		}
-	} else {
-		if (this->verbose) this->log_message("internal memory is not free. Use reset() function first!");
 	}
 
 	return false;
@@ -152,18 +122,11 @@ const short gtin::get_gtin_gs1_prefix () {
 	if (this->data_gtin != nullptr) {
 		if (this->data_gtin_length == 13) {
 			if (this->gtin_buff_gs1_prefix == 0) {
-				if (this->verbose) this->log_message("calculating GS1-Prefix");
 				this->gtin_buff_gs1_prefix = (short)this->chararray_to_int(this->data_gtin, 3);
-			} else {
-				if (this->verbose) this->log_message("get GS1-Prefix from buffer");
 			}
 
 			return this->gtin_buff_gs1_prefix;
-		} else {
-			if (this->verbose) this->log_message("could not find out GS1-Prefix: only GTIN-13 contain a GS1-Prefix");
 		}
-	} else {
-		if (this->verbose) this->log_message("could not find out GS1-Prefix: no data set");
 	}
 
 	/* Es konnte kein GS1-Praefix ermittelt werden, also gebe -1 zurueck. */
@@ -179,8 +142,6 @@ const gtin::gtin_type gtin::get_gtin_type () {
 	short gs1_prefix = this->get_gtin_gs1_prefix();
 
 	if (gs1_prefix != -1) {
-		if (this->verbose) this->log_message("searching for special code in GS1-Prefix ...");
-
 		/* Storeinternal-Codes 200-299 */
 		if (gs1_prefix >= 200 && gs1_prefix <= 299) return gtin::gtin_type::STOREINTERNAL;
 
@@ -225,18 +186,11 @@ const int gtin::get_gtin_section_articlenumber () {
 	if (this->data_gtin != nullptr) {
 		if (this->data_gtin_length == 13) {
 			if (this->gtin_buff_section_articlenumber == 0) {
-				if (this->verbose) this->log_message("calculating section article number ...");
 				this->gtin_buff_section_articlenumber = this->chararray_to_int(&this->data_gtin[3], 5);
-			} else {
-				if (this->verbose) this->log_message("get section article number from buffer");
 			}
 
 			return this->gtin_buff_section_articlenumber;
-		} else {
-			if (this->verbose) this->log_message("could not find out section article number: only GTIN-13 contain an article number");
 		}
-	} else {
-		if (this->verbose) this->log_message("could not find out section article number: no data set");
 	}
 
 	/* Es konnte keine section article number ermittelt werden, also gebe -1 zurueck. */
@@ -251,18 +205,11 @@ const short gtin::get_gtin_section_amount () {
 	if (this->data_gtin != nullptr) {
 		if (this->data_gtin_length == 13) {
 			if (this->gtin_buff_section_amount == 0) {
-				if (this->verbose) this->log_message("calculating section amount ...");
 				this->gtin_buff_section_amount = (short)this->chararray_to_int(&this->data_gtin[8], 4);
-			} else {
-				if (this->verbose) this->log_message("get section smount from buffer");
 			}
 
 			return this->gtin_buff_section_amount;
-		} else {
-			if (this->verbose) this->log_message("could not find out section amount: only GTIN-13 contain an amount");
 		}
-	} else {
-		if (this->verbose) this->log_message("could not find out section amount: no data set");
 	}
 
 	/* Es konnte keine section article number ermittelt werden, also gebe -1 zurueck. */

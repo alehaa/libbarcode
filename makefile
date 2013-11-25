@@ -13,10 +13,10 @@ LDFLAGS = -Wl,--as-needed
 
 
 
-libgtin.so.$(VERSION): gtin.fpic.o gtin_log.fpic.o gtin_data.fpic.o gtin_checksum.fpic.o gtin_chararray.fpic.o
+libgtin.so.$(VERSION): gtin.fpic.o gtin_data.fpic.o gtin_checksum.fpic.o gtin_chararray.fpic.o
 	$(CC) -o libgtin.so.$(VERSION) -shared -Wl,-soname="libgtin.so.$(MAJORVERSION)" $(LDFLAGS) $+
 
-libgtin.a: gtin.o gtin_log.o gtin_data.o gtin_checksum.o gtin_chararray.o
+libgtin.a: gtin.o gtin_data.o gtin_checksum.o gtin_chararray.o
 	ar cvq -o libgtin.a $+
 
 build: libgtin.so.$(VERSION) libgtin.a

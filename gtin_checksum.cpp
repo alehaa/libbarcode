@@ -10,8 +10,6 @@
  * evtl. auch ein Addon-Code in dem Array enthalten ist, muss die Laenge
  * fuer den Datenbereich mit angegeben werden. */
 bool gtin::checksum () {
-	if (this->verbose) this->log_message("calculating checksum ...");
-
 	/* berechne die Pruefziffer. Gehe dafuer von rechts nach links durch das Array
 	 * und berechne abwechselnd mit *1 oder *3 und addiere die Ergebnisse. */
 	unsigned char checksum = 0;
@@ -48,7 +46,6 @@ bool gtin::checksum () {
 	if (*p != 255) {
 		if (checksum == *p) return true;
 		else {
-			if (this->verbose) this->log_message("checksum not valid! Checksum should be '%u' but was '%u'", checksum, *p);
 			return false;
 		}
 	} else {

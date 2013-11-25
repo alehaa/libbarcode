@@ -14,8 +14,6 @@ gtin::~gtin () {
  * clean up all data in internal memory.
  */
 void gtin::reset () {
-	if (this->verbose) this->log_message("cleaning up internal memory ...");
-
 	if (this->data_gtin != nullptr) {
 		delete[] this->data_gtin;
 		this->data_gtin = nullptr;

@@ -25,9 +25,6 @@ class gtin {
 	public:
 		~gtin ();
 
-		void set_verbose_handler (void (*p_handler) (const char* message));
-		void set_verbose (bool p_verbose = true);
-
 		void set_handle_addon_codes (bool p_handle);
 
 		bool set_data (const char* p_data, bool p_contains_checksum = true);
@@ -64,17 +61,12 @@ class gtin {
 		unsigned char* data_gtin = nullptr, data_gtin_length;
 		unsigned char* data_addon_code = nullptr, data_addon_code_length;
 
-		bool verbose = false;
-		void log_message (const char* message, ...);
-
 		bool checksum ();
 
 		bool handle_addon_code = true;
 
 
 	private:
-		void (*log_message_handler) (const char* message) = nullptr;
-
 		short gtin_buff_gs1_prefix = 0;
 		int gtin_buff_section_articlenumber = 0;
 		short gtin_buff_section_amount = 0;

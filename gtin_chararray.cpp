@@ -32,8 +32,6 @@ unsigned char * gtin::cstr_to_chararray (const char *p_data, unsigned char p_dat
 
 		/* es handelt sich um keine Ziffer, also breche die Funktion vorzeitig ab */
 		} else {
-			if (this->verbose) this->log_message("failed to parse data: '%c' is an illegal character", *p);
-
 			/* loesche den bereits reservierten Datenbereich wieder */
 			delete[] buffer;
 
@@ -78,9 +76,7 @@ const char * gtin::chararray_to_cstr (unsigned char *p_data, unsigned char p_dat
 	}
 
 	/* p_data verweist auf den nullptr, d.h. es sind keine Daten da, welche um-
-	 * gewandelt werden koennen. Gebe eine Fehlermeldung aus und den nullptr zurueck. */
-	if (this->verbose) this->log_message("could not return data: is empty");
-
+	 * gewandelt werden koennen. Gebe den nullptr zurueck. */
 	return nullptr;
 }
 
@@ -106,8 +102,6 @@ int gtin::chararray_to_int (unsigned char *p_data, unsigned char p_data_length) 
 	}
 
 	/* p_data verweist auf den nullptr, d.h. es sind keine Daten da, welche um-
-	 * gewandelt werden koennen. Gebe eine Fehlermeldung aus und den nullptr zurueck. */
-	if (this->verbose) this->log_message("could not return data: is empty");
-
+	 * gewandelt werden koennen. Gebe -1 als Fehlermeldung zurueck. */
 	return -1;
 }
