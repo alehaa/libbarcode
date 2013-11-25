@@ -19,7 +19,7 @@ bool gtin::checksum () {
 		p--;
 
 		/* wenn es sich um eine 0 handelt, koennen wir diese ueberspringen, da diese
-		 * IMMER null ergeben wird (1*0=0, 3*0=0) und das Ergebnis soit nicht beeinflusst. */
+		 * IMMER null ergeben wird (1*0=0, 3*0=0) und das Ergebnis somit nicht beeinflusst. */
 		if (*p) {
 			if (multiplicate) checksum = checksum + (3 * *p);
 			else checksum = checksum + *p;
