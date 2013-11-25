@@ -28,8 +28,7 @@ class gtin {
 		void set_verbose_handler (void (*p_handler) (const char* message));
 		void set_verbose (bool p_verbose = true);
 
-		void enable_addon_code ();
-		void disable_addon_code ();
+		void set_handle_addon_codes (bool p_handle);
 
 		bool set_data (const char* p_data, bool p_contains_checksum = true);
 		bool set_addon_code (const char* p_data);

@@ -34,22 +34,10 @@ void gtin::reset () {
 }
 
 
-/* enable_addon_code ();
- * Addon-Codes will be handled and saved.
+
+/* set_handle_addon_codes (bool p_handle)
+ * Schaltet die Verarbeitung von Addon-Codes ein oder aus
  */
-void gtin::enable_addon_code () {
-	this->handle_addon_code = true;
-
-	if (this->verbose) this->log_message("handling addon-codes enabled");
-}
-
-
-/* disable_addon_code ();
- * Addon-Codes will NOT be handled. Addon-Codes may be part of codes
- * in set_data but they will not be saved.
- */
-void gtin::disable_addon_code () {
-	this->handle_addon_code = false;
-
-	if (this->verbose) this->log_message("handling addon-codes disabled");
+void gtin::set_handle_addon_codes (bool p_handle) {
+	this->handle_addon_code = p_handle;
 }
