@@ -1,25 +1,24 @@
-/* libgtin2
+/* This file is part of libgtin.
  *
- * This class is used to de - and encoding of GTIN codes.
+ * libgtin is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option) any
+ * later version.
  *
- * In the design of the class was taken to use as little space as well as calc-
- * ulations. Therefore pointers are frequently used. This class breaks down the
- * codes in their composition only in general, since there are too many app-
- * lication areas, which would affect the size of the class otherwise prevail.
- * Thus, with this class only convert the data in the bar code and vice versa,
- * and the ranges for the data output. For special cases one daughter class can
- * be developed in the final then that meets the specific requirements.
+ * This program is distributed in the hope that it will be useful,but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * This class has been optimized as far as possible, but it may still not be
- * perfect. It would be nice to report better solutions by email so that the
- * error can be fixed centrally. If someone better English than I can, he may
- * also like to correct my English ;)
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * Alexander Haase <alexander.haase@rwth-aachen.de>
+ *
+ * Copyright 2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#ifndef LIBGTIN_H
-#define LIBGTIN_H
+#ifndef GTIN_H
+#define GTIN_H
 
 class gtin {
 	public:
