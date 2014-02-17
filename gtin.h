@@ -27,9 +27,11 @@ class gtin {
 		void set_handle_addon_codes (bool p_handle);
 
 		bool set_data (const char* p_data, bool p_contains_checksum = true);
-		bool set_addon_code (const char* p_data);
 		const char * get_data ();
+
+		bool set_addon_code (const char* p_data);
 		const char * get_addon_code ();
+
 
 		enum class gtin_type {
 			ERR = -1,
@@ -44,8 +46,8 @@ class gtin {
 			COMMON_CURRENCY_COUPON = 8,
 		};
 
-		const short get_gtin_gs1_prefix ();
 		const gtin::gtin_type get_gtin_type ();
+		const short get_gtin_gs1_prefix ();
 		const int get_gtin_section_articlenumber ();
 		const short get_gtin_section_amount ();
 
@@ -65,4 +67,4 @@ class gtin {
 		bool handle_addon_code = true;
 };
 
-#endif // LIBGTIN_H
+#endif

@@ -98,6 +98,19 @@ bool gtin::set_data (const char* p_data, bool p_contains_checksum) {
 }
 
 
+/* get_data();
+ * gibt die Daten aus this->data_gtin als cstring zurueck.
+ * Die Endwanwendung muss dabei beachten, dass nur ein Pointer zurueckgegeben
+ * wird, welcher nach erfolgreicher Verwendung mit delete[] geloescht werden
+ * muss.
+ */
+const char * gtin::get_data () {
+	/* Eine Ueberpruefung, ob auch wirklich Daten gespeichert sind, muss nicht
+	 * erfolgen, da dies schon durch die aufgerufene Funktion erledigt wird. */
+	return this->chararray_to_cstr(this->data_gtin, this->data_gtin_length);
+}
+
+
 /* set_addon();
  * Waerend Anwendungen wie Kassensysteme den Addon-Code in einem mit dem GTIN
  * aufnehmen, wird dieser in Anwendungen, die nur zum generieren von GTIN-Codes
@@ -126,19 +139,6 @@ bool gtin::set_addon_code (const char *p_data) {
 
 	/* An einer Stelle ist ein Fehler aufgetreten. */
 	return false;
-}
-
-
-/* get_data();
- * gibt die Daten aus this->data_gtin als cstring zurueck.
- * Die Endwanwendung muss dabei beachten, dass nur ein Pointer zurueckgegeben
- * wird, welcher nach erfolgreicher Verwendung mit delete[] geloescht werden
- * muss.
- */
-const char * gtin::get_data () {
-	/* Eine Ueberpruefung, ob auch wirklich Daten gespeiuchert sind, muss nicht
-	 * erfolgen, da dies schon durch die aufgerufene Funktion erledigt wird. */
-	return this->chararray_to_cstr(this->data_gtin, this->data_gtin_length);
 }
 
 
