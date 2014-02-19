@@ -39,6 +39,7 @@ gtin::gtin () {
  * delete all allocated memory blocks
  */
 gtin::~gtin () {
+	this->clear();
 }
 
 

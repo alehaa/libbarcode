@@ -87,24 +87,22 @@ bool gtin::set_data (const char* p_data, bool p_contains_checksum, const char *p
 	if (!(this->data_gtin = this->cstr2carray(p_data, this->data_gtin_length))) return false;
 
 	// checksum was passed. Check, if it's valid
-	if (p_contains_checksum && !this->checksum()) {
-		this->clear();
-		return false;
+	if (!p_contains_checksum || (p_contains_checksum && !this->checksum())) {
+		/* if addon-code should not be handled, or no addon-code is in p_data, all tests
+		 * are passed now */
+		if (!this->conf_handle_addon_codes || (this->data_addon_code_length == 0 && !p_addon_code)) return true;
+
+		// translate addon-code to array of chars (int)
+		if (this->data_addon_code_length == 0) {
+			this->data_addon_code_length = std::char_traits<char>::length(p_addon_code);
+			if ((this->data_addon_code = this->cstr2carray(p_addon_code, this->data_addon_code_length))) return true;
+		} else
+			if ((this->data_addon_code = this->cstr2carray(&p_data[this->data_gtin_length], this->data_addon_code_length))) return true;
 	}
 
-	/* if addon-code should not be handled, or no addon-code is in p_data, all tests
-	 * are passed now */
-	if (!this->conf_handle_addon_codes || (this->data_addon_code_length == 0 && !p_addon_code)) return true;
-
-
-	// translate addon-code to array of chars (int)
-	if (this->data_addon_code_length == 0) {
-		this->data_addon_code_length = std::char_traits<char>::length(p_addon_code);
-		if (!(this->data_addon_code = this->cstr2carray(p_addon_code, this->data_addon_code_length))) return false;
-	} else
-		if (!(this->data_addon_code = this->cstr2carray(&p_data[this->data_gtin_length], this->data_addon_code_length))) return false;
-
-	return true;
+	// an error occured
+	this->clear();
+	return false;
 }
 
 
