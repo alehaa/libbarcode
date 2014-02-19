@@ -18,110 +18,114 @@
  */
 
 /* include header files */
-#include <cmath>
 #include "gtin.h"
 
 
-/* cstr_to_chararray ();
- * Diese Funktion ueberprueft, ob die Zeichenkette im ersten Argument nur aus
- * Ziffern besteht. Ist diese Vorraussetzung erfuellt, werden die ASCII-Chars
- * in richtige Ziffern umgewandelt und ein Array zu diesen Ziffern zurueck
- * gegeben, sodass set_data und set_addon diese verwenden koennen.
- * Da mit set_data auch GTIN ohne Checksumme uebergeben werden koennen, ist die
- * Laenge p_data_length groesser als p_data an Zeichen enthaelt. Ebenso hoert
- * der Bereich fuer buffer bei GTIN mit Addon-Code schon auf, bevor p_data zu
- * Ende ist. Durch die Logik wird dann vorher aufgehoert bzw. die weiteren Werte
- * mit '255' aufgefuellt.
+
+/* cstr2carray
+ * @param:
+ *	const char *p_data: array of char, containing a cstring with digits
+ *	unsigned char p_data_length: number of chars that should be converted. If
+ *		set to 0, all chars up to the end of cstring will be converted.
+ *
+ * @return:
+ *	returns a pointer to an array of unsigned char, or the nullptr, if an
+ *	error occured.
+ *
+ *
+ * This function trys to convert a cstring to an array of unsigned chars. If
+ * p_data_length is set to 0, all chars in p_data will be converted. If
+ * p_data_length is greater than number of chars in p_data, all other elements
+ * of array will be filles with '255'.
  */
-unsigned char * gtin::cstr_to_chararray (const char *p_data, unsigned char p_data_length) {
-	/* gehe durch das Array p_data, schaue ob nur legale Zeichen vorhanden sind und
-	 * wandle die Zeichen in echte Ziffern um. */
-	unsigned char c = 0;
+unsigned char * gtin::cstr2carray (const char *p_data, unsigned char p_data_length) {
+	// test, if p_data is not the nullptr
+	if (!p_data || p_data_length == 0) return nullptr;
+
+	// create new buffer
 	unsigned char *buffer = new unsigned char[p_data_length];
-	for (const char *p = p_data; *p; p++) {
-		/* befinden wir uns noch im gewuenschten Bereich? Sonst verlasse nun die Schleife */
-		if (c >= p_data_length) break;
 
-		/* Pruefe, ob es sich um eine Ziffer handelt. Ziffern sind die ASCII-Zeichen
-		 * 48-57, d.h. es reicht zu pruefen, ob *p in diesem Bereich liegt. */
-		if ((*p >= 48) && (*p <= 57)) {
-			/* Das zeichen ist eine Ziffer, also kann es in den Buffer aufgenommen werden*/
-			buffer[c] = *p - 48;
-			c++;
-
-		/* es handelt sich um keine Ziffer, also breche die Funktion vorzeitig ab */
-		} else {
-			/* loesche den bereits reservierten Datenbereich wieder */
+	// go through cstring
+	unsigned char *b = buffer, *b_end = buffer + p_data_length;
+	for (const char *p = p_data; *p && (b < b_end); p++ && b++) {
+		// check, if *p is a number
+		if ((*p < 48) || (*p > 57)) {
+			// *p is no number. Delete buffer and return nullptr.
 			delete[] buffer;
-
-			/* gebe nullptr zurueck */
 			return nullptr;
 		}
+
+		*b = *p - 48;
 	}
 
-	/* wenn z.B. keine Pruefziffer uebergeben wurde, dann fuelle die letzte Stelle
-	 * mit einer 0 auf. */
-	if ((c + 1) == p_data_length) buffer[c] = 255;
+	// fill free elements at end of array with '255'
+	for (; b < b_end; b++)
+		*b = 255;
 
-	/* return pointer to buffer */
 	return buffer;
 }
 
 
-/* chararray_to_cstr ();
- * gibt die Daten aus p_data als cstring zurueck.
- * Die Endwanwendung muss dabei beachten, dass nur ein Pointer zurueckgegeben
- * wird, welcher nach erfolgreicher Verwendung mit delete[] geloescht werden
- * muss.
+/* carray2cstr
+ * @param:
+ *	unsigned char *p_data: array of unsigned char
+ *	unsigned char p_data_length: number of digits that should be converted. If
+ *		set to 0, all digits up to the end of array will be converted.
+ *
+ * @return:
+ *	returns a pointer to an array of char, or the nullptr, if an
+ *	error occured.
+ *
+ *
+ * This function trys to convert an array of unsigned chars to a cstring.
  */
-const char * gtin::chararray_to_cstr (unsigned char *p_data, unsigned char p_data_length) {
-	if (p_data != nullptr) {
-		/* reserviere neuen Speicherbereich. Dabei muss beachtet werden, dass ein Zeichen
-		 * mehr gebraucht wird, als p_data lang ist, da am Ende ein '\0' zur Terminierung
-		 * des cstrings angefügt wird. */
-		char *buffer = new char[p_data_length + 1];
+const char * gtin::carray2cstr (unsigned char *p_data, unsigned char p_data_length) {
+	// test, if p_data is not the nullptr
+	if (!p_data || p_data_length == 0) return nullptr;
 
-		/* gehe mit *p durch das Array, bis die letzte Stelle (destiny) erreicht ist */
-		unsigned char *destiny = p_data + p_data_length;
-		do {
-			*buffer = *p_data + 48;
-			buffer++;
-			p_data++;
-		} while (p_data != destiny);
+	// create new buffer
+	char *buffer = new char[p_data_length + 1];
 
-		/* add NULL at end of cstring */
-		*buffer = '\0';
+	// go through carray
+	char *b = buffer, *b_end = buffer + p_data_length;
+	for (unsigned char *p = p_data, *p_end = p_data + p_data_length; (p < p_end) && (b < b_end); p++ && b++) {
+		if (*p == 255) {
+			delete[] buffer;
+			return nullptr;
+		}
 
-		return (buffer - p_data_length);
+		*b = *p + 48;
 	}
 
-	/* p_data verweist auf den nullptr, d.h. es sind keine Daten da, welche um-
-	 * gewandelt werden koennen. Gebe den nullptr zurueck. */
-	return nullptr;
+	// fill free elements at end of array with '\0'
+	for (; b <= b_end; b++)
+		*b = '\0';
+
+	return buffer;
 }
 
 
 /* chararray_to_int ();
  * gibt die Daten in p_data als integer zurueck.
  */
-int gtin::chararray_to_int (unsigned char *p_data, unsigned char p_data_length) {
-	if (p_data != nullptr) {
-		int buffer = 0;
+//int gtin::chararray_to_int (unsigned char *p_data, unsigned char p_data_length) {
+//	if (p_data != nullptr) {
+//		int buffer = 0;
 
 		/* gehe das Array von hinten nach vorne durch und multipliziere mit steigendem
 		 * Exponenten */
-		char exponent = 0;
-		unsigned char *p = p_data + p_data_length;
-		do {
-			p--;
-			buffer = buffer + ((int)*p * pow(10, exponent));
-			exponent++;
-		} while (p != p_data);
+//		char exponent = 0;
+//		unsigned char *p = p_data + p_data_length;
+//		do {
+//			p--;
+//			buffer = buffer + ((int)*p * pow(10, exponent));
+//			exponent++;
+//		} while (p != p_data);
 
-		return buffer;
-	}
+//		return buffer;
+//	}
 
 	/* p_data verweist auf den nullptr, d.h. es sind keine Daten da, welche um-
 	 * gewandelt werden koennen. Gebe -1 als Fehlermeldung zurueck. */
-	return -1;
-}
+//	return -1;
+//}

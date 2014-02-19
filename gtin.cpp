@@ -17,40 +17,44 @@
  * Copyright 2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-/* include header file */
 #include "gtin.h"
 
 
+
+/* constructor
+ *
+ */
+gtin::gtin () {
+	conf_handle_addon_codes = true;
+
+	this->data_gtin = nullptr;
+	this->data_addon_code = nullptr;
+
+	this->clear();
+}
+
+
 /* destructor
- * clean up all internal memory
+ *
+ * delete all allocated memory blocks
  */
 gtin::~gtin () {
-	this->reset();
 }
 
 
-/* reset ();
- * clean up all data in internal memory.
+/* enable_addon_codes
+ *
+ * enable handling of addon codes
  */
-void gtin::reset () {
-	if (this->data_gtin != nullptr) {
-		delete[] this->data_gtin;
-		this->data_gtin = nullptr;
-		this->data_gtin_length = 0;
-	}
-
-	if (this->data_addon_code != nullptr) {
-		delete[] this->data_addon_code;
-		this->data_addon_code = nullptr;
-		this->data_addon_code_length = 0;
-	}
+void gtin::enable_addon_codes () {
+	this->conf_handle_addon_codes = true;
 }
 
 
-
-/* set_handle_addon_codes (bool p_handle)
- * Schaltet die Verarbeitung von Addon-Codes ein oder aus
+/* disable_addon_codes
+ *
+ * disable handling of addon codes
  */
-void gtin::set_handle_addon_codes (bool p_handle) {
-	this->handle_addon_code = p_handle;
+void gtin::disable_addon_codes () {
+	this->conf_handle_addon_codes = false;
 }
