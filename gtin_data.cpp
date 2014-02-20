@@ -68,7 +68,6 @@ bool gtin::set_data (const char* p_data, bool p_contains_checksum, const char *p
 		if (!match && !p_addon_code && (p_data_length == 15 || p_data_length == 18)) match = true;
 	} else
 		if (p_data_length == 7 || (p_data_length >= 11 && p_data_length <= 13)) match = true;
-
 	if (!match) return false;
 
 	/* Check with the help of p_data_length whether an addon Code was passed and how
@@ -86,19 +85,22 @@ bool gtin::set_data (const char* p_data, bool p_contains_checksum, const char *p
 	// translate p_data to array of chars (int)
 	if (!(this->data_gtin = this->cstr2carray(p_data, this->data_gtin_length))) return false;
 
-	// checksum was passed. Check, if it's valid
-	if (!p_contains_checksum || (p_contains_checksum && !this->checksum())) {
-		/* if addon-code should not be handled, or no addon-code is in p_data, all tests
-		 * are passed now */
-		if (!this->conf_handle_addon_codes || (this->data_addon_code_length == 0 && !p_addon_code)) return true;
-
-		// translate addon-code to array of chars (int)
-		if (this->data_addon_code_length == 0) {
-			this->data_addon_code_length = std::char_traits<char>::length(p_addon_code);
-			if ((this->data_addon_code = this->cstr2carray(p_addon_code, this->data_addon_code_length))) return true;
-		} else
-			if ((this->data_addon_code = this->cstr2carray(&p_data[this->data_gtin_length], this->data_addon_code_length))) return true;
+	// check checksum if passed
+	if (p_contains_checksum && !this->checksum()) {
+		this->clear();
+		return false;
 	}
+
+	/* if addon-code should not be handled, or no addon-code is in p_data, all tests
+	 * are passed now */
+	if (!this->conf_handle_addon_codes || (this->data_addon_code_length == 0 && !p_addon_code)) return true;
+
+	// translate addon-code to array of chars (int)
+	if (this->data_addon_code_length == 0) {
+		this->data_addon_code_length = std::char_traits<char>::length(p_addon_code);
+		if ((this->data_addon_code = this->cstr2carray(p_addon_code, this->data_addon_code_length))) return true;
+	} else
+		if ((this->data_addon_code = this->cstr2carray(&p_data[this->data_gtin_length], this->data_addon_code_length))) return true;
 
 	// an error occured
 	this->clear();
@@ -125,4 +127,58 @@ const char * gtin::get_data () {
  */
 const char * gtin::get_addon_code () {
 	return this->carray2cstr(this->data_addon_code, this->data_addon_code_length);
+}
+
+
+/* get_gtin_gs1_prefix
+ *
+ * @return:
+ *	returns a short or -1, if an error occured
+ *
+ *
+ * This function checks, if a GTIN-13 is avivable and converts the first 3
+ * digits of this->data_gtin to a short.
+ */
+const short gtin::get_gtin_gs1_prefix () {
+	// return, if no data is avivable, or GTIN has not the size of 13
+	if (this->data_gtin_length != 13) return -1;
+
+	// convert data and return
+	return (short) this->carray2int(this->data_gtin, 3);
+}
+
+
+/* get_gtin_company_number
+ *
+ * @return:
+ *	returns an int or -1, if an error occured
+ *
+ *
+ * This function checks, if a GTIN-13 is avivable and converts the 4-8 digits
+ * of this->data_gtin to an int.
+ */
+const int gtin::get_gtin_company_number () {
+	// return, if no data is avivable, or GTIN has not the size of 13
+	if (this->data_gtin_length != 13) return -1;
+
+	// convert data and return
+	return this->carray2int(&this->data_gtin[3], 5);
+}
+
+
+/* get_gtin_item_reference
+ *
+ * @return:
+ *	returns a short or -1, if an error occured
+ *
+ *
+ * This function checks, if a GTIN-13 is avivable and converts the 9-12
+ * of this->data_gtin to a short.
+ */
+const short gtin::get_gtin_item_reference () {
+	// return, if no data is avivable, or GTIN has not the size of 13
+	if (this->data_gtin_length != 13) return -1;
+
+	// convert data and return
+	return (short) this->carray2int(&this->data_gtin[8], 4);
 }

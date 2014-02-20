@@ -20,6 +20,9 @@
 /* include header files */
 #include "gtin.h"
 
+#include <cmath>
+#include <iostream>
+
 
 
 /* cstr2carray
@@ -39,7 +42,7 @@
  * of array will be filles with '255'.
  */
 unsigned char * gtin::cstr2carray (const char *p_data, unsigned char p_data_length) {
-	// test, if p_data is not the nullptr
+	// test, if p_data is not the nullptr and p_data_length > 0
 	if (!p_data || p_data_length == 0) return nullptr;
 
 	// create new buffer
@@ -80,7 +83,7 @@ unsigned char * gtin::cstr2carray (const char *p_data, unsigned char p_data_leng
  * This function trys to convert an array of unsigned chars to a cstring.
  */
 const char * gtin::carray2cstr (unsigned char *p_data, unsigned char p_data_length) {
-	// test, if p_data is not the nullptr
+	// test, if p_data is not the nullptr and p_data_length > 0
 	if (!p_data || p_data_length == 0) return nullptr;
 
 	// create new buffer
@@ -105,27 +108,27 @@ const char * gtin::carray2cstr (unsigned char *p_data, unsigned char p_data_leng
 }
 
 
-/* chararray_to_int ();
- * gibt die Daten in p_data als integer zurueck.
+/* carray2int
+ * @param:
+ *	unsigned char *p_data: array of unsigned char
+ *	unsigned char p_data_length: number of digits that should be converted. If
+ *		set to 0, all digits up to the end of array will be converted.
+ *
+ * @return:
+ *	returns an integer of converted digits or -1 if an error occured
+ *
+ *
+ * This function trys to convert an array of unsigned chars to an integer.
  */
-//int gtin::chararray_to_int (unsigned char *p_data, unsigned char p_data_length) {
-//	if (p_data != nullptr) {
-//		int buffer = 0;
+unsigned int gtin::carray2int (unsigned char *p_data, unsigned char p_data_length) {
+	// test, if p_data is not the nullptr and p_data_length > 0
+	if (!p_data || p_data_length == 0) return -1;
 
-		/* gehe das Array von hinten nach vorne durch und multipliziere mit steigendem
-		 * Exponenten */
-//		char exponent = 0;
-//		unsigned char *p = p_data + p_data_length;
-//		do {
-//			p--;
-//			buffer = buffer + ((int)*p * pow(10, exponent));
-//			exponent++;
-//		} while (p != p_data);
+	// go through carray
+	int c = 0;
+	char e = 0;
+	for (unsigned char *p = p_data + p_data_length - 1, *p_end = p_data; p >= p_end; p--, e++)
+		c += (int) (*p * pow(10, e));
 
-//		return buffer;
-//	}
-
-	/* p_data verweist auf den nullptr, d.h. es sind keine Daten da, welche um-
-	 * gewandelt werden koennen. Gebe -1 als Fehlermeldung zurueck. */
-//	return -1;
-//}
+	return c;
+}

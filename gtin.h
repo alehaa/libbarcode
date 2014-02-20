@@ -33,6 +33,10 @@ class gtin {
 		const char * get_addon_code ();
 		void clear();
 
+		const short get_gtin_gs1_prefix ();
+		const int get_gtin_company_number ();
+		const short get_gtin_item_reference ();
+
 	protected:
 		bool checksum ();
 
@@ -44,27 +48,7 @@ class gtin {
 
 		unsigned char * cstr2carray (const char *p_data, unsigned char p_data_length);
 		const char * carray2cstr (unsigned char *p_data, unsigned char p_data_length);
-//		int chararray_to_int (unsigned char *p_data, unsigned char p_data_length = 1);
-
-/*
-		enum class gtin_type {
-			ERR = -1,
-			NONE = 0,
-			STOREINTERNAL = 1,
-			PRESSCODE_GERMANY = 2,
-			ISSN = 3,
-			ISBN = 4,
-			ISMN = 5,
-			REFUND_RECEIPT = 6,
-			COUPON = 7,
-			COMMON_CURRENCY_COUPON = 8,
-		};
-
-		const gtin::gtin_type get_gtin_type ();
-		const short get_gtin_gs1_prefix ();
-		const int get_gtin_section_articlenumber ();
-		const short get_gtin_section_amount ();
-*/
+		unsigned int carray2int (unsigned char *p_data, unsigned char p_data_length);
 };
 
 #endif
