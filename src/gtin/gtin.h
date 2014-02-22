@@ -24,8 +24,8 @@
 
 class barcode_gtin {
 	public:
-		gtin ();
-		~gtin ();
+		barcode_gtin ();
+		~barcode_gtin ();
 
 		void enable_addon_codes ();
 		void disable_addon_codes ();

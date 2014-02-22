@@ -11,7 +11,7 @@ ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 
 
 # directory for header files
-barcode_includedir = $(includedir)/libbarcode
+barcode_includedir = $(includedir)/barcode
 barcode_include_HEADERS = src/gtin/gtin.h
 
 
