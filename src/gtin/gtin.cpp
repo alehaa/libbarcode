@@ -24,7 +24,7 @@
 /* constructor
  *
  */
-gtin::gtin () {
+barcode_gtin::barcode_gtin () {
 	conf_handle_addon_codes = true;
 
 	this->data_gtin = NULL;
@@ -38,7 +38,7 @@ gtin::gtin () {
  *
  * delete all allocated memory blocks
  */
-gtin::~gtin () {
+barcode_gtin::~barcode_gtin () {
 	this->clear();
 }
 
@@ -47,7 +47,7 @@ gtin::~gtin () {
  *
  * enable handling of addon codes
  */
-void gtin::enable_addon_codes () {
+void barcode_gtin::enable_addon_codes () {
 	this->conf_handle_addon_codes = true;
 }
 
@@ -56,6 +56,6 @@ void gtin::enable_addon_codes () {
  *
  * disable handling of addon codes
  */
-void gtin::disable_addon_codes () {
+void barcode_gtin::disable_addon_codes () {
 	this->conf_handle_addon_codes = false;
 }

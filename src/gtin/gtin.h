@@ -22,7 +22,7 @@
 
 #include <cstddef>
 
-class gtin {
+class barcode_gtin {
 	public:
 		gtin ();
 		~gtin ();

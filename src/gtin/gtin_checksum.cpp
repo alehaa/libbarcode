@@ -31,7 +31,7 @@
  * set, it will be appended as last digit in GTIN. Otherwise the last digit will
  * be checked against calculated checksum and result will be returned.
  */
-bool gtin::checksum () {
+bool barcode_gtin::checksum () {
 	// is data in this->data_gtin?
 	if (!this->data_gtin) return false;
 

@@ -13,11 +13,10 @@ LT_INIT
 # For information on how to properly maintain the library version information,
 # refer to the libtool manual, section "Updating library version information":
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-# AC_SUBST([GTIN_SO], [2:0:0])
-# AC_SUBST([GTIN_API], [2])
+AC_SUBST([BARCODE_SO], [2:0:0])
 
 # Override the template file name of the generated .pc file, so that there
 # is no need to rename the template file when the API version changes.
-AC_CONFIG_FILES([Makefile src/Makefile src/gtin/Makefile])
+AC_CONFIG_FILES([Makefile barcode.pc:barcode.pc.in])
 
 AC_OUTPUT

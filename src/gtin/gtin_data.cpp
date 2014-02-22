@@ -28,7 +28,7 @@
  * This function resets all non-static data to its default values and deletes
  * allocated memory blocks
  */
-void gtin::clear () {
+void barcode_gtin::clear () {
 	if (this->data_gtin) delete[] this->data_gtin;
 	this->data_gtin = NULL;
 	this->data_gtin_length = 0;
@@ -53,7 +53,7 @@ void gtin::clear () {
  * in p_data and the addon-code (if it is included in p_data and should be
  * handled)
  */
-bool gtin::set_data (const char* p_data, bool p_contains_checksum, const char *p_addon_code) {
+bool barcode_gtin::set_data (const char* p_data, bool p_contains_checksum, const char *p_addon_code) {
 	// return false, if p_data is nullptr
 	if (!p_data) return false;
 
@@ -114,7 +114,7 @@ bool gtin::set_data (const char* p_data, bool p_contains_checksum, const char *p
  *
  * returns data in this->data_gtin as cstring or nullptr on error
  */
-const char * gtin::get_data () {
+const char * barcode_gtin::get_data () {
 	return this->carray2cstr(this->data_gtin, this->data_gtin_length);
 }
 
@@ -125,7 +125,7 @@ const char * gtin::get_data () {
  *
  * returns data in this->data_addon_code as cstring or nullptr on error
  */
-const char * gtin::get_addon_code () {
+const char * barcode_gtin::get_addon_code () {
 	return this->carray2cstr(this->data_addon_code, this->data_addon_code_length);
 }
 
@@ -139,7 +139,7 @@ const char * gtin::get_addon_code () {
  * This function checks, if a GTIN-13 is avivable and converts the first 3
  * digits of this->data_gtin to a short.
  */
-const short gtin::get_gtin_gs1_prefix () {
+const short barcode_gtin::get_gtin_gs1_prefix () {
 	// return, if no data is avivable, or GTIN has not the size of 13
 	if (this->data_gtin_length != 13) return -1;
 
@@ -157,7 +157,7 @@ const short gtin::get_gtin_gs1_prefix () {
  * This function checks, if a GTIN-13 is avivable and converts the 4-8 digits
  * of this->data_gtin to an int.
  */
-const int gtin::get_gtin_company_number () {
+const int barcode_gtin::get_gtin_company_number () {
 	// return, if no data is avivable, or GTIN has not the size of 13
 	if (this->data_gtin_length != 13) return -1;
 
@@ -175,7 +175,7 @@ const int gtin::get_gtin_company_number () {
  * This function checks, if a GTIN-13 is avivable and converts the 9-12
  * of this->data_gtin to a short.
  */
-const short gtin::get_gtin_item_reference () {
+const short barcode_gtin::get_gtin_item_reference () {
 	// return, if no data is avivable, or GTIN has not the size of 13
 	if (this->data_gtin_length != 13) return -1;
 

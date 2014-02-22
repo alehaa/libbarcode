@@ -41,7 +41,7 @@
  * p_data_length is greater than number of chars in p_data, all other elements
  * of array will be filles with '255'.
  */
-unsigned char * gtin::cstr2carray (const char *p_data, unsigned char p_data_length) {
+unsigned char * barcode_gtin::cstr2carray (const char *p_data, unsigned char p_data_length) {
 	// test, if p_data is not the nullptr and p_data_length > 0
 	if (!p_data || p_data_length == 0) return NULL;
 
@@ -82,7 +82,7 @@ unsigned char * gtin::cstr2carray (const char *p_data, unsigned char p_data_leng
  *
  * This function trys to convert an array of unsigned chars to a cstring.
  */
-const char * gtin::carray2cstr (unsigned char *p_data, unsigned char p_data_length) {
+const char * barcode_gtin::carray2cstr (unsigned char *p_data, unsigned char p_data_length) {
 	// test, if p_data is not the nullptr and p_data_length > 0
 	if (!p_data || p_data_length == 0) return NULL;
 
@@ -120,7 +120,7 @@ const char * gtin::carray2cstr (unsigned char *p_data, unsigned char p_data_leng
  *
  * This function trys to convert an array of unsigned chars to an integer.
  */
-unsigned int gtin::carray2int (unsigned char *p_data, unsigned char p_data_length) {
+unsigned int barcode_gtin::carray2int (unsigned char *p_data, unsigned char p_data_length) {
 	// test, if p_data is not the nullptr and p_data_length > 0
 	if (!p_data || p_data_length == 0) return -1;
 
