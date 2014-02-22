@@ -30,11 +30,11 @@
  */
 void gtin::clear () {
 	if (this->data_gtin) delete[] this->data_gtin;
-	this->data_gtin = nullptr;
+	this->data_gtin = NULL;
 	this->data_gtin_length = 0;
 
 	if (this->data_addon_code) delete[] this->data_addon_code;
-	this->data_addon_code = nullptr;
+	this->data_addon_code = NULL;
 	this->data_addon_code_length = 0;
 }
 

@@ -43,7 +43,7 @@
  */
 unsigned char * gtin::cstr2carray (const char *p_data, unsigned char p_data_length) {
 	// test, if p_data is not the nullptr and p_data_length > 0
-	if (!p_data || p_data_length == 0) return nullptr;
+	if (!p_data || p_data_length == 0) return NULL;
 
 	// create new buffer
 	unsigned char *buffer = new unsigned char[p_data_length];
@@ -55,7 +55,7 @@ unsigned char * gtin::cstr2carray (const char *p_data, unsigned char p_data_leng
 		if ((*p < 48) || (*p > 57)) {
 			// *p is no number. Delete buffer and return nullptr.
 			delete[] buffer;
-			return nullptr;
+			return NULL;
 		}
 
 		*b = *p - 48;
@@ -84,7 +84,7 @@ unsigned char * gtin::cstr2carray (const char *p_data, unsigned char p_data_leng
  */
 const char * gtin::carray2cstr (unsigned char *p_data, unsigned char p_data_length) {
 	// test, if p_data is not the nullptr and p_data_length > 0
-	if (!p_data || p_data_length == 0) return nullptr;
+	if (!p_data || p_data_length == 0) return NULL;
 
 	// create new buffer
 	char *buffer = new char[p_data_length + 1];
@@ -94,7 +94,7 @@ const char * gtin::carray2cstr (unsigned char *p_data, unsigned char p_data_leng
 	for (unsigned char *p = p_data, *p_end = p_data + p_data_length; (p < p_end) && (b < b_end); p++ && b++) {
 		if (*p == 255) {
 			delete[] buffer;
-			return nullptr;
+			return NULL;
 		}
 
 		*b = *p + 48;

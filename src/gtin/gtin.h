@@ -20,6 +20,8 @@
 #ifndef GTIN_H
 #define GTIN_H
 
+#include <cstddef>
+
 class gtin {
 	public:
 		gtin ();
@@ -28,7 +30,7 @@ class gtin {
 		void enable_addon_codes ();
 		void disable_addon_codes ();
 
-		bool set_data (const char *p_data, bool p_contains_checksum = true, const char *p_addon_code = nullptr);
+		bool set_data (const char *p_data, bool p_contains_checksum = true, const char *p_addon_code = NULL);
 		const char * get_data ();
 		const char * get_addon_code ();
 		void clear();

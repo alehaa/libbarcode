@@ -27,8 +27,8 @@
 gtin::gtin () {
 	conf_handle_addon_codes = true;
 
-	this->data_gtin = nullptr;
-	this->data_addon_code = nullptr;
+	this->data_gtin = NULL;
+	this->data_addon_code = NULL;
 
 	this->clear();
 }
