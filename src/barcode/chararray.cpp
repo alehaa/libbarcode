@@ -22,17 +22,15 @@
 /*
  * include header files
  */
-#include "barcode.h"
-
 #include <cstddef>
-//#include <cmath>
-//#include <iostream>
+
+#include "barcode.h"
 
 
 /**
- * @brief Convert C String to array of char (integer).
+ * \brief Convert C String to array of char (integer).
  *
- * @details Converts the first \p num characters of \p source and stores them
+ * \details Converts the first \p num characters of \p source and stores them
  *  in \p destination.
  *
  *  If the end of the source C string (which is signaled by a
@@ -44,36 +42,55 @@
  *  \p destination and \p source shall not overlap.
  *
  *
- * @param destination Pointer to the destination array where the converted
+ * \param destination Pointer to the destination array where the converted
  *  content is to be stored.
- * @param source C string to be converted.
- * @param num Maximum number of characters to be converted from source.
+ * \param source C string to be converted.
+ * \param num Maximum number of characters to be converted from source.
  *
- * @return If \p source is successfully converted, the number of converted
+ * \return If \p source is successfully converted, the number of converted
  *  characters is returned. Otherwise -1 is returned.
+ *
+ *
+ * \b Example:
+ * \code
+ * #include <iostream>
+ *
+ * void barcode::test ()
+ * {
+ *   const char source[11] = "1234567890";
+ *   char destination[10];
+ *
+ *   if (this->atoia(&destination[0], &source[0], 10) < 0)
+ *     std::cerr << "Error while converting source" << std::endl;
+ *
+ *   std::cout << "Converted: ";
+ *
+ *   for (int i = 0; i < 10; i++)
+ *     std::cout << (int) destination[i];
+ *
+ *   std::cout << std::endl;
+ * }
+ * \endcode
  */
 int barcode::atoia (char *destination, const char *source, size_t num)
 {
-	// if destination is NULL, we can't copy to it
-	if (destination == NULL) return -1;
+	// if source or destination is NULL, we can't convert / copy into it
+	if (source == NULL || destination == NULL) return -1;
 
-	const char *s = source;
-	char *d = destination;
 	int c = 0;
-
-	for (int i = 0; i < (int) num; i++, d++) {
+	for (int i = 0; i < (int) num; i++, destination++) {
 		// if we are at the end of source, pad destination with zeros
-		if (*s == '\0') {
-			*d = 0;
+		if (*source == '\0') {
+			*destination = 0;
 			continue;
 		}
 
 		// return error, if char in source is no integer
-		if ((*s < 48) || (*s > 57)) return -1;
+		if ((*source < 48) || (*source > 57)) return -1;
 
 		// copy and convert content
-		*d = *s - 48;
-		s++;
+		*destination = *source - 48;
+		source++;
 		c++;
 	}
 
@@ -90,61 +107,104 @@ int barcode::atoia (char *destination, const char *source, size_t num)
  *
  *  \p destination and \p source shall not overlap.
  *
- * @note Beware that size of \p destination has to be \p + 1, because of the
- *  terminating null-character that is added at the end of \p destination.
+ * @note Beware that size of \p destination has to be the size of \p source +
+ *  1, because of the terminating null-character that is added at the end of
+ *  \p destination.
  *
  *
  * @param destination Pointer to the destination array where the converted
  *  content is to be stored.
  * @param source array of cahr to be converted.
- * @param num Maximum number of characters to be converted from source.
+ * @param num Maximum number of chars to be converted from source.
  *
  * @return If \p source is successfully converted, the number of converted
- *  characters is returned. Otherwise -1 is returned.
+ *  chars is returned. Otherwise -1 is returned.
+ *
+ *
+ * \b Example:
+ * \code
+ * #include <iostream>
+ *
+ * void barcode::test ()
+ * {
+ *   const char source[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+ *   char destination[11];
+ *
+ *   if (this->iatoa(&destination[0], &source[0], 10) < 0)
+ *     std::cerr << "Error while converting source" << std::endl;
+ *
+ *   std::cout << "Converted: " << destination << std::endl;
+ * }
+ * \endcode
  */
 int barcode::iatoa (char *destination, const char *source, size_t num)
 {
-	// if destination is NULL, we can't copy to it
-	if (destination == NULL) return -1;
-
-	const char *s = source;
-	char *d = destination;
+	// if source or destination is NULL, we can't convert / copy into it
+	if (source == NULL || destination == NULL) return -1;
 
 	// copy and convert content
-	for (int i = 0; i < (int) num; i++, s++, d++)
-		*d = *s + 48;
+	for (int i = 0; i < (int) num; i++, source++, destination++)
+		*destination = *source + 48;
+
+	// add terminating null-character
+	*destination = '\0';
 
 	// return number of converted chars
 	return (int) num; 
 }
 
 
-
-
-
-
-
-/* carray2int
- * @param:
- *	unsigned char *p_data: array of unsigned char
- *	unsigned char p_data_length: number of digits that should be converted. If
- *		set to 0, all digits up to the end of array will be converted.
+/**
+ * @brief Convert array of char (integer) to integer.
  *
- * @return:
- *	returns an integer of converted digits or -1 if an error occured
+ * @details Converts the first \p num chars (integers) of \p source and stores
+ *  them in \p destination.
+ *
+ *  \p destination and \p source shall not overlap.
  *
  *
- * This function trys to convert an array of unsigned chars to an integer.
+ * @param destination Pointer to the destination integer where the converted
+ *  content is to be stored.
+ * @param source array of cahr to be converted.
+ * @param num Maximum number of chars to be converted from source.
+ *
+ * @return If \p source is successfully converted, the number of converted
+ *  chars is returned. Otherwise -1 is returned.
+ *
+ *
+ * \b Example:
+ * \code
+ * #include <iostream>
+ *
+ * void barcode::test ()
+ * {
+ *   const char source[4] = {1, 2, 3, 4};
+ *   int destination;
+ *
+ *   if (this->iatoi(&destination, &source[0], 4) < 0)
+ *     std::cerr << "Error while converting source" << std::endl;
+ *
+ *   std::cout << "Converted: " << destination << std::endl;
+ * }
+ * \endcode
  */
-/*unsigned int barcode_gtin::carray2int (unsigned char *p_data, unsigned char p_data_length) {
-	// test, if p_data is not the nullptr and p_data_length > 0
-	if (!p_data || p_data_length == 0) return -1;
+#include <iostream>
+int barcode::iatoi (int *destination, const char *source, size_t num)
+{
+	// if source or destination is NULL, we can't convert / copy into it
+	if (source == NULL || destination == NULL) return -1;
 
-	// go through carray
-	int c = 0;
-	char e = 0;
-	for (unsigned char *p = p_data + p_data_length - 1, *p_end = p_data; p >= p_end; p--, e++)
-		c += (int) (*p * pow(10, e));
+	// jump to last char that should be converted
+	source += num - 1;
 
-	return c;
-}*/
+	// clean up destination
+	*destination = 0;
+
+	// copy and convert content
+	int p = 1;
+	for (int i = 0; i < (int) num; i++, source--, p *= 10)
+		*destination += *source * p;
+
+	// return number of converted chars
+	return (int) num;
+}

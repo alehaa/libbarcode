@@ -31,6 +31,7 @@ class barcode {
 	protected:
 		int atoia (char *destination, const char *source, size_t num);
 		int iatoa (char *destination, const char *source, size_t num);
+		int iatoi (int *destination, const char *source, size_t num);
 
 	private:
 };
