@@ -17,40 +17,19 @@
  * Copyright 2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#ifndef GTIN_H
-#define GTIN_H
+#ifndef LIBBARCODE_GTIN_H
+#define LIBBARCODE_GTIN_H
 
-#include <cstddef>
+#include <barcode.h>
 
-class barcode_gtin {
+class barcode_gtin : public barcode {
 	public:
-		barcode_gtin ();
-		~barcode_gtin ();
-
-		void enable_addon_codes ();
-		void disable_addon_codes ();
-
-		bool set_data (const char *p_data, bool p_contains_checksum = true, const char *p_addon_code = NULL);
-		const char * get_data ();
-		const char * get_addon_code ();
-		void clear();
-
-		const short get_gtin_gs1_prefix ();
-		const int get_gtin_company_number ();
-		const short get_gtin_item_reference ();
 
 	protected:
-		bool checksum ();
 
 	private:
-		bool conf_handle_addon_codes;
 
-		unsigned char *data_gtin, data_gtin_length;
-		unsigned char *data_addon_code, data_addon_code_length;
-
-		unsigned char * cstr2carray (const char *p_data, unsigned char p_data_length);
-		const char * carray2cstr (unsigned char *p_data, unsigned char p_data_length);
-		unsigned int carray2int (unsigned char *p_data, unsigned char p_data_length);
 };
+
 
 #endif
