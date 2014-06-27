@@ -18,23 +18,33 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#ifndef LIBBARCODE_H
-#define LIBBARCODE_H
-
-
+/*
+ * include header files
+ */
 #include <cstddef>
 
 
+#ifndef LIBBARCODE_H
+#define LIBBARCODE_H
+
 class barcode {
 	public:
+		barcode ();
+		~barcode ();
 
 	protected:
 		int atoia (char *destination, const char *source, size_t num);
 		int iatoa (char *destination, const char *source, size_t num);
 		int iatoi (int *destination, const char *source, size_t num);
 
+		int set_data (const char *source);
+		char *data; /**< internal storage for data */
+		size_t data_length; /**< length of \ref data */
+		bool data_convert_to_ia;
+		/**< flag, if \p source should be converted with \ref atoia to an
+		 * array of integers */
+
 	private:
 };
-
 
 #endif

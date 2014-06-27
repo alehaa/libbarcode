@@ -95,7 +95,7 @@ int barcode::atoia (char *destination, const char *source, size_t num)
 	}
 
 	// return number of converted chars
-	return c; 
+	return c;
 }
 
 
@@ -150,7 +150,7 @@ int barcode::iatoa (char *destination, const char *source, size_t num)
 	*destination = '\0';
 
 	// return number of converted chars
-	return (int) num; 
+	return (int) num;
 }
 
 
@@ -188,7 +188,6 @@ int barcode::iatoa (char *destination, const char *source, size_t num)
  * }
  * \endcode
  */
-#include <iostream>
 int barcode::iatoi (int *destination, const char *source, size_t num)
 {
 	// if source or destination is NULL, we can't convert / copy into it

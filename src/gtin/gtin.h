@@ -17,10 +17,14 @@
  * Copyright 2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
+/*
+ * include header files
+ */
+#include <barcode.h>
+
+
 #ifndef LIBBARCODE_GTIN_H
 #define LIBBARCODE_GTIN_H
-
-#include <barcode.h>
 
 class barcode_gtin : public barcode {
 	public:
@@ -30,6 +34,5 @@ class barcode_gtin : public barcode {
 	private:
 
 };
-
 
 #endif
