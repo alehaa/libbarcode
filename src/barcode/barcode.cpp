@@ -32,10 +32,6 @@
  */
 barcode::barcode ()
 {
-	// set defaults for storing data
-	this->data = NULL;
-	this->data_length = 0;
-	this->data_convert_to_ia = false;
 }
 
 
@@ -44,7 +40,4 @@ barcode::barcode ()
  */
 barcode::~barcode ()
 {
-	// data storage
-	if (this->data)
-		free(this->data);
 }

@@ -24,6 +24,7 @@
  */
 #include <cstring>
 #include <cstdlib>
+#include <regex>
 
 #include "barcode.h"
 
@@ -31,11 +32,10 @@
 /**
  * \brief Copy C string \p source into internal memory.
  *
- * \details Copies the C string pointed by \p source into \ref data, including
- *  the terminating null character (and stopping at that point).
+ * \details Copies the C string pointed by \p source into \ref barcode::data.
  *
- *  If \ref data_convert_to_ia is true, \p source will be converted with \ref
- *  atoia to an array of integer which will be stored in \ref data.
+ *  \p source will only be copied, if it matches \ref
+ *  barcode::data_allowed_regex.
  *
  *
  * \param source C string to be copied.
@@ -52,7 +52,7 @@
  * {
  *   const char source[11] = "1234567890";
  *
- *   if (this->set_data(&destination[0]) < 0)
+ *   if (this->set_data(&source[0]) < 0)
  *     std::cerr << "Error while copying source" << std::endl;
  * }
  * \endcode
@@ -60,35 +60,56 @@
 int barcode::set_data (const char *source)
 {
 	// if source is NULL, we can't copy it
-	if (source == NULL) return -1;
-
-	// get length of source
-	size_t source_length = strlen(source);
-
-	// resize this->data to new length, if needed
-	if (source_length != this->data_length) {
-		size_t new_size = source_length;
-		if (!this->data_convert_to_ia) new_size++;
-
-		// realloc memory
-		void *temp = realloc(this->data, new_size);
-		if (temp == NULL) return -1;
-		else this->data = (char *)temp;
-
-		// set this->data_length
-		this->data_length = source_length;
+	if (source != NULL) {
+		// check if source contains only allowed characters
+		if (std::regex_match(source, this->data_allowed_regex)) {
+			// copy data to internal storage
+			this->data = source;
+			return 0;
+		}
 	}
 
-	// should data be converted?
-	if (this->data_convert_to_ia) {
-		// copy converted data into this->data
-		if (this->atoia(this->data, source, source_length) < 0) return -1;
-	} else {
-		// data should only be copied as C string
-		if (strncpy(this->data, source, source_length) != this->data)
-			return -1;
+	// return failure
+	return -1;
+}
+
+
+/**
+ * \brief Copy \ref barcode::data into C string \p destination.
+ *
+ *
+ * \param destination Pointer to the destination array.
+ *
+ * \return If \ref barcode::data is successfully copied, 0 is returned.
+ *  Otherwise -1 is returned.
+ *
+ *
+ * \b Example:
+ * \code
+ * #include <iostream>
+ *
+ * void barcode::test ()
+ * {
+ *   const char source[11] = "1234567890";
+ *
+ *   if (this->set_data(&source[0]) < 0)
+ *     std::cerr << "Error while copying source" << std::endl;
+ *
+ *   char dest[11];
+ *   if (this->get_data(&dest[0]) < 0)
+ *     std::cerr << "Error while copying into destination" << std::endl
+ * }
+ * \endcode
+ */
+int barcode::get_data (char *destination)
+{
+	// if this->data is empty, we can't copy it
+	if (!this->data.empty()) {
+		if (std::strcpy(destination, this->data.c_str()) == destination) {
+			return 0;
+		}
 	}
 
-	// return success
-	return 0;
+	// return failure
+	return -1;
 }

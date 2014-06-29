@@ -22,6 +22,7 @@
  * include header files
  */
 #include <cstddef>
+#include <regex>
 
 
 #ifndef LIBBARCODE_H
@@ -32,17 +33,19 @@ class barcode {
 		barcode ();
 		~barcode ();
 
+		int set_data (const char *source);
+		int get_data (char *destination);
+
 	protected:
 		int atoia (char *destination, const char *source, size_t num);
 		int iatoa (char *destination, const char *source, size_t num);
 		int iatoi (int *destination, const char *source, size_t num);
 
-		int set_data (const char *source);
-		char *data; /**< internal storage for data */
-		size_t data_length; /**< length of \ref data */
-		bool data_convert_to_ia;
-		/**< flag, if \p source should be converted with \ref atoia to an
-		 * array of integers */
+		std::string data;
+		/**< Internal storage for data */
+		std::regex data_allowed_regex;
+		/**< String containing regex that \p source must match to assign value
+		 * to barcode:: data */
 
 	private:
 };
