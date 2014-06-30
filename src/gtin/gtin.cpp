@@ -17,45 +17,33 @@
  * Copyright 2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
+/*
+ * include header files
+ */
 #include "gtin.h"
 
 
-
-/* constructor
- *
+/**
+ * \brief Constructs an \ref barcode_gtin object.
  */
-barcode_gtin::barcode_gtin () {
-	conf_handle_addon_codes = true;
-
-	this->data_gtin = NULL;
-	this->data_addon_code = NULL;
-
-	this->clear();
+barcode_gtin::barcode_gtin ()
+{
 }
 
 
-/* destructor
- *
- * delete all allocated memory blocks
+/**
+ * \brief Destructs the \ref barcode_gtin object.
  */
-barcode_gtin::~barcode_gtin () {
-	this->clear();
+barcode_gtin::~barcode_gtin ()
+{
 }
 
 
-/* enable_addon_codes
- *
- * enable handling of addon codes
+/**
+ * \brief Erases the contents of the \ref barcode_gtin object.
  */
-void barcode_gtin::enable_addon_codes () {
-	this->conf_handle_addon_codes = true;
-}
-
-
-/* disable_addon_codes
- *
- * disable handling of addon codes
- */
-void barcode_gtin::disable_addon_codes () {
-	this->conf_handle_addon_codes = false;
+void barcode_gtin::clear ()
+{
+	this->data.clear();
+	this->addon_code.clear();
 }
