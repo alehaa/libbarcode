@@ -28,6 +28,16 @@
 
 
 /**
+ * \brief Erases the contents of the \ref barcode_gtin object.
+ */
+void barcode_gtin::clear ()
+{
+	this->data.clear();
+	this->addon_code.clear();
+}
+
+
+/**
  * \brief Copies \p source to \ref barcode_gtin::data.
  *
  * \p source will be checked for length and only containing integers. If every

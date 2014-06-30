@@ -37,13 +37,3 @@ barcode_gtin::barcode_gtin ()
 barcode_gtin::~barcode_gtin ()
 {
 }
-
-
-/**
- * \brief Erases the contents of the \ref barcode_gtin object.
- */
-void barcode_gtin::clear ()
-{
-	this->data.clear();
-	this->addon_code.clear();
-}
