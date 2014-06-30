@@ -30,9 +30,6 @@
 
 class barcode {
 	public:
-		barcode ();
-		~barcode ();
-
 		int set_data (const char *source);
 		int get_data (char *destination);
 

@@ -28,6 +28,9 @@
 
 class barcode_gtin : public barcode {
 	public:
+		barcode_gtin () : data_allowed_regex("[0-9]+") {};
+
+	//	int set_data (const char *source);
 
 	protected:
 
