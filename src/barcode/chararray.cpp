@@ -24,7 +24,7 @@
  */
 #include <cstddef>
 
-#include "barcode.h"
+#include "barcode.hpp"
 
 
 /**

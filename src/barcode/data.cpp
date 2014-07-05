@@ -24,9 +24,9 @@
  */
 #include <cstring>
 #include <cstdlib>
-#include <regex>
+//#include <regex>
 
-#include "barcode.h"
+#include "barcode.hpp"
 
 
 /**
@@ -57,9 +57,8 @@
  * }
  * \endcode
  */
-int barcode::set_data (const char *source)
-{
-	// if source is NULL, we can't copy it
+int barcode::set_data (const char *source) throw(std::invalid_argument)
+{/*	// if source is NULL, we can't copy it
 	if (source != NULL) {
 		// check if source contains only allowed characters
 		if (std::regex_match(source, this->data_allowed_regex)) {
@@ -68,6 +67,7 @@ int barcode::set_data (const char *source)
 			return 0;
 		}
 	}
+*/
 
 	// return failure
 	return -1;
