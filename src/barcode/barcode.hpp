@@ -30,7 +30,7 @@
 
 class barcode {
 	public:
-		int set_data (const char *source) throw(std::invalid_argument);
+		size_t set_data (const char *source);
 		int get_data (char *destination);
 
 	protected:
@@ -40,9 +40,9 @@ class barcode {
 
 		std::string data;
 		/**< Internal storage for data */
-		//std::regex data_allowed_regex;
-		/**< String containing regex that \p source must match to assign value
-		 * to barcode:: data */
+		std::string data_allowed_characters;
+		/**< String containing all characters that are allowed to be used in
+		 * \ref data */
 
 	private:
 };

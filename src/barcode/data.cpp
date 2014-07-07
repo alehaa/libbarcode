@@ -57,20 +57,26 @@
  * }
  * \endcode
  */
-int barcode::set_data (const char *source) throw(std::invalid_argument)
-{/*	// if source is NULL, we can't copy it
-	if (source != NULL) {
-		// check if source contains only allowed characters
-		if (std::regex_match(source, this->data_allowed_regex)) {
-			// copy data to internal storage
-			this->data = source;
-			return 0;
-		}
+size_t barcode::set_data (const char *source)
+{
+	// if source is NULL, we can't copy it
+	if (source == NULL) throw std::invalid_argument("source is NULL");
+
+	// get length of source
+	size_t len = strlen(source);
+
+	// check, if source contains characters, that are not allowed
+	if (!this->data_allowed_characters.empty()) {
+		if (strspn(source, this->data_allowed_characters.c_str()) != len)
+			throw std::invalid_argument("source contains unallowed character");
 	}
-*/
+
+
+	// copy source into data
+	this->data = source;
 
 	// return failure
-	return -1;
+	return len;
 }
 
 

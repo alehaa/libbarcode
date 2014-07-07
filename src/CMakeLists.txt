@@ -19,6 +19,6 @@
 #
 
 #
-# recurse into subdirectorys
+# recurse into subdirectories
 #
 add_subdirectory(barcode)

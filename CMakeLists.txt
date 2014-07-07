@@ -30,13 +30,13 @@ project("libbarcode")
 
 
 #
-# recurse into subdirectorys
+# recurse into subdirectories
 #
 add_subdirectory(src)
 
 
 #
-# enable tests
+# testing functionality
 #
 enable_testing()
 add_subdirectory(tests)
