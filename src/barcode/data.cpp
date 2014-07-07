@@ -29,8 +29,57 @@
 
 
 
-/**
- * \brief Copy C string \p source into internal memory.
+/** \brief Copies string \p source into internal memory.
+ *
+ * \details Copies the string referenced by \p source into \ref barcode::data.
+ *
+ *
+ * \param source \ref std::string to be copied.
+ *
+ * \return The number of copied characters.
+ *
+ * \include barcode/data/set_data_string.cpp
+ */
+size_t barcode::set_data (const std::string &source)
+{
+	return this->set_data(source, 0, source.length());
+}
+
+
+/** \brief Copies the first \p num characters of \p source into internal memory.
+ *
+ * \details Copies the first \p num characters of string referenced by \p source
+ *  into \ref barcode::data.
+ *
+ *
+ * \param source \ref std::string to be copied.
+ * \param num Maximum number of characters to be copied from \p source.
+ *
+ * \return The number of copied characters.
+ *
+ * \include barcode/data/set_data_substring.cpp
+ */
+size_t barcode::set_data (const std::string &source, size_t subpos, size_t sublen)
+{
+	// copy source into temp string
+	std::string temp;
+	temp.assign(source, subpos, sublen);
+
+	// check, if source contains characters, that are not allowed
+	if (!this->data_allowed_characters.empty()) {
+		if (temp.find_first_not_of(this->data_allowed_characters, 0) != std::string::npos)
+			throw std::invalid_argument("source contains unallowed character");
+	}
+
+	// copy source into data
+	this->data = temp;
+
+	// return failure
+	return temp.length();
+}
+
+
+/** \brief Copy C string \p source into internal memory.
  *
  * \details Copies the C string pointed by \p source into \ref barcode::data.
  *
@@ -48,8 +97,7 @@ size_t barcode::set_data (const char *source)
 }
 
 
-/**
- * \brief Copy first \p num cahracters of \p source into internal memory.
+/** \brief Copy first \p num cahracters of \p source into internal memory.
  *
  * \details Copies the first \p num characters of C string pointed by \p source
  *  into \ref barcode::data.
@@ -69,7 +117,7 @@ size_t barcode::set_data (const char *source, size_t num)
 
 	// check, if source contains characters, that are not allowed
 	if (!this->data_allowed_characters.empty()) {
-		for (size_t i = 0; i < num; i++) {
+		for (size_t i = 0; (i < num && source[i] != '\0'); i++) {
 			if (this->data_allowed_characters.find(&source[i], 0, 1) == std::string::npos)
 				throw std::invalid_argument("source contains unallowed character");
 		}
@@ -84,41 +132,15 @@ size_t barcode::set_data (const char *source, size_t num)
 
 
 /**
- * \brief Copy \ref barcode::data into C string \p destination.
+ * \brief Returns \ref barcode::data.
  *
  *
- * \param destination Pointer to the destination array.
- *
- * \return If \ref barcode::data is successfully copied, 0 is returned.
- *  Otherwise -1 is returned.
+ * \return Returns \ref barcode::data.
  *
  *
- * \b Example:
- * \code
- * #include <iostream>
- *
- * void barcode::test ()
- * {
- *   const char source[11] = "1234567890";
- *
- *   if (this->set_data(&source[0]) < 0)
- *     std::cerr << "Error while copying source" << std::endl;
- *
- *   char dest[11];
- *   if (this->get_data(&dest[0]) < 0)
- *     std::cerr << "Error while copying into destination" << std::endl
- * }
- * \endcode
+ * \include barcode/data/get_data.cpp
  */
-int barcode::get_data (char *destination)
+std::string barcode::get_data ()
 {
-	// if this->data is empty, we can't copy it
-	if (!this->data.empty()) {
-		if (std::strcpy(destination, this->data.c_str()) == destination) {
-			return 0;
-		}
-	}
-
-	// return failure
-	return -1;
+	return this->data;
 }

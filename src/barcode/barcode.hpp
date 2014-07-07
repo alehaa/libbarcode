@@ -30,11 +30,11 @@
 
 class barcode {
 	public:
-		//size_t set_data (const string &str);
-		//size_t set_data (const string &str, size_t subpos, size_t sublen);
+		size_t set_data (const std::string &source);
+		size_t set_data (const std::string &source, size_t subpos, size_t sublen);
 		size_t set_data (const char *source);
 		size_t set_data (const char *source, size_t num);
-		int get_data (char *destination);
+		std::string get_data ();
 
 	protected:
 		//int atoia (char *destination, const char *source, size_t num);

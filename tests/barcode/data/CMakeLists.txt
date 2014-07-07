@@ -20,5 +20,10 @@
 
 
 # test of function set_data()
+addSimpleTest("barcode_set_data_string" "set_data_string.cpp" "barcode" "barcode")
+addSimpleTest("barcode_set_data_substring" "set_data_substring.cpp" "barcode" "barcode")
 addSimpleTest("barcode_set_data_cstring" "set_data_cstring.cpp" "barcode" "barcode")
 addSimpleTest("barcode_set_data_buffer" "set_data_cstring.cpp" "barcode" "barcode")
+
+# test of function get_data()
+addSimpleTest("barcode_get_data" "get_data.cpp" "barcode" "barcode")
