@@ -59,7 +59,7 @@ function (addSimpleTest p_testName p_sourceList p_include p_libs)
 	endif (NOT "${p_libs}" STREQUAL "")
 
 	get_target_property(bin_path "${p_testName}_test" LOCATION)
-	add_test(barcode_setData ${bin_path})
+	add_test("${p_testName}" ${bin_path})
 endfunction (addSimpleTest)
 
 

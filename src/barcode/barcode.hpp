@@ -21,7 +21,7 @@
 /*
  * include header files
  */
-//#include <cstddef>
+#include <cstddef>
 #include <stdexcept>
 
 
@@ -30,7 +30,10 @@
 
 class barcode {
 	public:
+		//size_t set_data (const string &str);
+		//size_t set_data (const string &str, size_t subpos, size_t sublen);
 		size_t set_data (const char *source);
+		size_t set_data (const char *source, size_t num);
 		int get_data (char *destination);
 
 	protected:

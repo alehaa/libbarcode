@@ -24,9 +24,9 @@
  */
 #include <cstring>
 #include <cstdlib>
-//#include <regex>
 
 #include "barcode.hpp"
+
 
 
 /**
@@ -34,49 +34,52 @@
  *
  * \details Copies the C string pointed by \p source into \ref barcode::data.
  *
- *  \p source will only be copied, if it matches \ref
- *  barcode::data_allowed_regex.
- *
  *
  * \param source C string to be copied.
  *
- * \return If \p source is successfully copied, 0 is returned. Otherwise -1 is
- *  returned.
+ * \return The number of copied characters.
  *
  *
- * \b Example:
- * \code
- * #include <iostream>
- *
- * void barcode::test ()
- * {
- *   const char source[11] = "1234567890";
- *
- *   if (this->set_data(&source[0]) < 0)
- *     std::cerr << "Error while copying source" << std::endl;
- * }
- * \endcode
+ * \include barcode/data/set_data_cstring.cpp
  */
 size_t barcode::set_data (const char *source)
+{
+	return this->set_data(source, strlen(source));
+}
+
+
+/**
+ * \brief Copy first \p num cahracters of \p source into internal memory.
+ *
+ * \details Copies the first \p num characters of C string pointed by \p source
+ *  into \ref barcode::data.
+ *
+ *
+ * \param source C string to be copied.
+ * \param num Maximum number of characters to be copied from \p source.
+ *
+ * \return The number of copied characters.
+ *
+ * \include barcode/data/set_data_buffer.cpp
+ */
+size_t barcode::set_data (const char *source, size_t num)
 {
 	// if source is NULL, we can't copy it
 	if (source == NULL) throw std::invalid_argument("source is NULL");
 
-	// get length of source
-	size_t len = strlen(source);
-
 	// check, if source contains characters, that are not allowed
 	if (!this->data_allowed_characters.empty()) {
-		if (strspn(source, this->data_allowed_characters.c_str()) != len)
-			throw std::invalid_argument("source contains unallowed character");
+		for (size_t i = 0; i < num; i++) {
+			if (this->data_allowed_characters.find(&source[i], 0, 1) == std::string::npos)
+				throw std::invalid_argument("source contains unallowed character");
+		}
 	}
-
 
 	// copy source into data
 	this->data = source;
 
 	// return failure
-	return len;
+	return num;
 }
 
 

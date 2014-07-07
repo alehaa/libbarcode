@@ -21,3 +21,4 @@
 
 # test of function set_data()
 addSimpleTest("barcode_set_data_cstring" "set_data_cstring.cpp" "barcode" "barcode")
+addSimpleTest("barcode_set_data_buffer" "set_data_cstring.cpp" "barcode" "barcode")
