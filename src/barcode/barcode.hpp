@@ -18,11 +18,9 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-/*
- * include header files
- */
 #include <cstddef>
 #include <stdexcept>
+
 
 
 #ifndef LIBBARCODE_H
@@ -32,8 +30,6 @@ class barcode {
 	public:
 		size_t set_data (const std::string &source);
 		size_t set_data (const std::string &source, size_t subpos, size_t sublen);
-		size_t set_data (const char *source);
-		size_t set_data (const char *source, size_t num);
 		std::string get_data ();
 
 	protected:
