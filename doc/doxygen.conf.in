@@ -17,12 +17,12 @@
 
 # The PROJECT_NAME tag is a single word (or a sequence of words surrounded
 # by quotes) that should identify the project.
-PROJECT_NAME = libbarcode
+PROJECT_NAME = @PROJECT_NAME@
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number.
 # This could be handy for archiving the generated documentation or if some
 # version control system is used.
-# PROJECT_NUMBER =
+PROJECT_NUMBER = @CMAKE_VERSION@
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute)
 # base path where the generated documentation will be put. If a relative path
@@ -102,7 +102,7 @@ INLINE_INHERITED_MEMB = YES
 # of the specified strings matches the left-hand part of the path. The tag can
 # be used to show relative paths in the file list. If left blank the directory
 # from which doxygen is run is used as the path to strip.
-# STRIP_FROM_PATH =
+STRIP_FROM_PATH = @CMAKE_SOURCE_DIR@
 
 # The STRIP_FROM_INC_PATH tag can be used to strip a user-defined part of the
 # path mentioned in the documentation of a class, which tells the reader which
@@ -367,7 +367,7 @@ WARN_FORMAT = "$file:$line: $text"
 # tain documented source files. You may enter file names like "myfile.cpp" or
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
-INPUT  = ../src
+INPUT  =  @PROJECT_SOURCE_DIR@/src
 
 # If the value of the INPUT tag contains directories, you can use the
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp
