@@ -19,10 +19,13 @@
 #
 
 
-#
-# add library barcode
-#
-add_library(barcode SHARED data.cpp)
+# add include-dir for barcode-numeric for all tests
+include_directories("${PROJECT_SOURCE_DIR}/src/barcode_numeric")
 
-install(FILES barcode.hpp DESTINATION include)
-install(TARGETS barcode LIBRARY DESTINATION lib)
+
+# test of function set_data()
+addSimpleTest("barcode_set_data_numeric_accepted" "set_data_numeric_accepted.cpp")
+addSimpleTest("barcode_set_data_not_numeric_not_accepted" "set_data_not_numeric_not_accepted.cpp")
+
+# test of function get_data()
+# addSimpleTest("barcode_get_data" "get_data.cpp")

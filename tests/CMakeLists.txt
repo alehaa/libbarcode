@@ -44,19 +44,10 @@
 # \param p_include include directory in /src to build test
 # \param p_libs target of library that should be linked
 #
-function (addSimpleTest p_testName p_sourceList p_include p_libs)
-	# include directorys to build test
-	if (NOT "${p_include}" STREQUAL "")
-		include_directories("${PROJECT_SOURCE_DIR}/src/${p_include}")
-	endif (NOT "${p_include}" STREQUAL "")
-
+function (addSimpleTest p_testName p_sourceList)
 	# add new executeable
 	add_executable("${p_testName}_test" "${p_sourceList}")
-
-	# link libraries
-	if (NOT "${p_libs}" STREQUAL "")
-		target_link_libraries("${p_testName}_test" "${p_libs}")
-	endif (NOT "${p_libs}" STREQUAL "")
+	target_link_libraries("${p_testName}_test" barcode)
 
 	get_target_property(bin_path "${p_testName}_test" LOCATION)
 	add_test("${p_testName}" ${bin_path})
@@ -64,7 +55,10 @@ endfunction (addSimpleTest)
 
 
 
-#
+# add include-dir for barcode-base for all tests
+include_directories("${PROJECT_SOURCE_DIR}/src/barcode_base")
+
+
 # recurse into subdirectories
-#
-add_subdirectory(barcode)
+add_subdirectory(barcode_base)
+add_subdirectory(barcode_numeric)

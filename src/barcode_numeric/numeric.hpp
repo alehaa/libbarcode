@@ -21,29 +21,16 @@
 #include <cstddef>
 #include <stdexcept>
 
+#include <barcode.hpp>
 
 
-#ifndef LIBBARCODE_H
-#define LIBBARCODE_H
 
-class barcode {
+#ifndef LIBBARCODE_NUMERIC_H
+#define LIBBARCODE_NUMERIC_H
+
+class barcode_numeric : public barcode {
 	public:
-		size_t set_data (const std::string &source);
-		size_t set_data (const std::string &source, size_t subpos, size_t sublen);
-		std::string get_data ();
-
-	protected:
-		//int atoia (char *destination, const char *source, size_t num);
-		//int iatoa (char *destination, const char *source, size_t num);
-		//int iatoi (int *destination, const char *source, size_t num);
-
-		std::string data;
-		/**< Internal storage for data */
-		std::string data_allowed_characters;
-		/**< String containing all characters that are allowed to be used in
-		 * \ref data */
-
-	private:
+		barcode_numeric ();
 };
 
 #endif

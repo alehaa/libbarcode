@@ -19,19 +19,9 @@
 #
 
 
-# set fPIC
-set (CMAKE_CXX_FLAGS "-fPIC")
+# test of function set_data()
+addSimpleTest("barcode_set_data_string" "set_data_string.cpp")
+addSimpleTest("barcode_set_data_substring" "set_data_substring.cpp")
 
-
-# recurse into subdirectories
-add_subdirectory(barcode_base)
-add_subdirectory(barcode_numeric)
-
-
-# build libbarcode
-add_library(barcode SHARED
-	$<TARGET_OBJECTS:barcode_base>
-	$<TARGET_OBJECTS:barcode_numeric>
-)
-
-install(TARGETS barcode DESTINATION lib)
+# test of function get_data()
+addSimpleTest("barcode_get_data" "get_data.cpp")

@@ -19,19 +19,9 @@
 #
 
 
-# set fPIC
-set (CMAKE_CXX_FLAGS "-fPIC")
+# compile class barcode
+add_library(barcode_base OBJECT data.cpp)
 
 
-# recurse into subdirectories
-add_subdirectory(barcode_base)
-add_subdirectory(barcode_numeric)
-
-
-# build libbarcode
-add_library(barcode SHARED
-	$<TARGET_OBJECTS:barcode_base>
-	$<TARGET_OBJECTS:barcode_numeric>
-)
-
-install(TARGETS barcode DESTINATION lib)
+# install header
+install(FILES "barcode.hpp" DESTINATION include RENAME "base.hpp")

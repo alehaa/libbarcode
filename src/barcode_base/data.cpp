@@ -53,7 +53,7 @@ size_t barcode::set_data (const std::string &source, size_t subpos, size_t suble
 	// copy source into data
 	this->data = temp;
 
-	// return failure
+	// return count of copied characters
 	return temp.length();
 }
 

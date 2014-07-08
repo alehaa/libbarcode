@@ -19,9 +19,11 @@
 #
 
 
-# test of function set_data()
-addSimpleTest("barcode_set_data_string" "set_data_string.cpp" "barcode" "barcode")
-addSimpleTest("barcode_set_data_substring" "set_data_substring.cpp" "barcode" "barcode")
+# compile class barcode
+include_directories("${PROJECT_SOURCE_DIR}/src/barcode_base")
 
-# test of function get_data()
-addSimpleTest("barcode_get_data" "get_data.cpp" "barcode" "barcode")
+add_library(barcode_numeric OBJECT numeric.cpp)
+
+
+# install header
+install(FILES "numeric.hpp" DESTINATION include)
