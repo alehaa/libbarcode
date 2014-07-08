@@ -17,20 +17,20 @@
  * Copyright 2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-/*
- * include header files
- */
-#include <barcode.h>
-
 
 #ifndef LIBBARCODE_GTIN_H
 #define LIBBARCODE_GTIN_H
 
-class barcode_gtin : public barcode {
-	public:
-		barcode_gtin () : data_allowed_regex("[0-9]+") {};
+/*
+ * include header files
+ */
+#include <numeric.hpp>
 
-	//	int set_data (const char *source);
+
+class barcode_gtin : public barcode_numeric {
+	public:
+		size_t set_data (const std::string &source);
+		size_t set_data (const std::string &source, size_t subpos, size_t sublen);
 
 	protected:
 

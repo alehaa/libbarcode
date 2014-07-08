@@ -19,13 +19,11 @@
 #
 
 
-# add include-dir for barcode-numeric for all tests
+# include paths for tests
+include_directories("${PROJECT_SOURCE_DIR}/src/barcode_base")
 include_directories("${PROJECT_SOURCE_DIR}/src/barcode_numeric")
 
 
 # test of function set_data()
-addSimpleTest("barcode_set_data_numeric_accepted" "set_data_numeric_accepted.cpp")
-addSimpleTest("barcode_set_data_not_numeric_not_accepted" "set_data_not_numeric_not_accepted.cpp")
-
-# test of function get_data()
-# addSimpleTest("barcode_get_data" "get_data.cpp")
+addSimpleTest("barcode_numeric_set_data_num_accepted" "set_data_numeric_accepted.cpp" "")
+addSimpleTest("barcode_numeric_set_data_alpha_not_accepted" "set_data_not_numeric_not_accepted.cpp" "")

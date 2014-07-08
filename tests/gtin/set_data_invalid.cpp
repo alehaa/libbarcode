@@ -22,35 +22,44 @@
 #include <exception>
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
-#include <numeric.hpp>
+#include <gtin.hpp>
 
 
 
-int main ()
+int main (int argc, char **argv)
 {
-	barcode_numeric t;
+	if (argc != 2) {
+		std::cerr << "Test confiduartion failed: not enough arguments!" << std::endl;
+		return 1;
+	}
 
-	// use try-catch to catch errors while setting data
+	// how long should string be?
+	size_t num = atoi(argv[1]);
+
+	std::string source;
+	for (size_t i = 0; i < num; i++)
+		source.push_back('2');
+
+	std::cout << "Testing with string: '" << source << "'" << std::endl;
+
+
+	barcode_gtin t;
 	try {
-		std::string source = "0123456789";
-
-		// try to set data
-		size_t num = t.set_data(source);
-
-		// source should not be accepted!
-		if (num == source.length()) {
-			std::cout << "source was accepted. Test passed!" << std::endl;
-			return 0;
-		} else {
-			std::cerr << "source was not accepted. Test failed!" << std::endl;
+		if (t.set_data(source) == num) {
+			// source was accepted
+			std::cerr << "source was accepted. Test failed!" << std::endl;
 			return 1;
+		} else {
+			std::cout << "Error in set_data(): returned length didn't match sublen!" << std::endl;
+			return 0;
 		}
 
-	} catch (std::invalid_argument &ex) {
+	} catch (std::exception &ex) {
 		// an error occured in set_data()
-		std::cerr << "source was not accepted: Test failed!" << std::endl;
-		return 1;
+		std::cout << "exception was thrown: " << ex.what() << std::endl;
+		return 0;
 	}
 
 	// an error occured

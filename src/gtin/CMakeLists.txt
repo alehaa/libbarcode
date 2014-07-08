@@ -19,13 +19,14 @@
 #
 
 
-# include paths for tests
+# compile class barcode
 include_directories("${PROJECT_SOURCE_DIR}/src/barcode_base")
+include_directories("${PROJECT_SOURCE_DIR}/src/barcode_numeric")
+
+add_library(barcode_gtin OBJECT
+	data.cpp
+)
 
 
-# test of function set_data()
-addSimpleTest("barcode_set_data_string" "set_data_string.cpp" "")
-addSimpleTest("barcode_set_data_substring" "set_data_substring.cpp" "")
-
-# test of function get_data()
-addSimpleTest("barcode_get_data" "get_data.cpp" "")
+# install header
+install(FILES "gtin.hpp" DESTINATION include)
