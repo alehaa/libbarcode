@@ -38,8 +38,6 @@ class barcode {
 		std::string data_allowed_characters;
 		/**< String containing all characters that are allowed to be used in
 		 * \ref data */
-
-	private:
 };
 
 #endif

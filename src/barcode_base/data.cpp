@@ -25,18 +25,30 @@
 
 
 
-/** \brief Copies the first \p num characters of \p source into internal memory.
+/** \brief Copies the first \p sublen characters of \p source starting at
+ *  position \p subpos into internal memory.
  *
- * \details Copies the first \p num characters of string referenced by \p source
- *  into \ref barcode::data.
+ * \details Copies the first \p sublen characters of \p source starting at
+ *  position \p subpos referenced by \p source into \ref barcode::data.
  *
  *
- * \param source \ref std::string to be copied.
- * \param num Maximum number of characters to be copied from \p source.
+ * \param source std::string to be copied.
+ * \param subpos Position of the first character in \p source that is copied to
+ *  \ref barcode::data as a substring.
+ * \param sublen Length of the substring to be copied (if \p source is shorter,
+ *  as many characters as possible are copied).
+ *  A value of string::npos indicates all characters until the end of str.
  *
  * \return The number of copied characters.
  *
- * \include barcode/data/set_data_substring.cpp
+ * \throw std::invalid_argument If \p source contains unallowed characters an
+ *  invalid_argument exception is thrown.
+ * \throw std::out_of_range If \p subpos is greater than \p source's length,
+ *  an out_of_range exception is thrown.
+ * \throw std::length_error If the resulting string length would exceed the
+ *  max_size, a length_error exception is thrown.
+ * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
+ *  to allocate storage and fails.
  */
 size_t barcode::set_data (const std::string &source, size_t subpos, size_t sublen)
 {
@@ -63,26 +75,29 @@ size_t barcode::set_data (const std::string &source, size_t subpos, size_t suble
  * \details Copies the string referenced by \p source into \ref barcode::data.
  *
  *
- * \param source \ref std::string to be copied.
+ * \param source std::string to be copied.
  *
  * \return The number of copied characters.
  *
- * \include barcode/data/set_data_string.cpp
+ * \throw std::invalid_argument If \p source contains unallowed characters an
+ *  invalid_argument exception is thrown.
+ * \throw std::out_of_range If \p subpos is greater than \p source's length,
+ *  an out_of_range exception is thrown.
+ * \throw std::length_error If the resulting string length would exceed the
+ *  max_size, a length_error exception is thrown.
+ * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
+ *  to allocate storage and fails.
  */
 size_t barcode::set_data (const std::string &source)
 {
-	return this->set_data(source, 0, source.length());
+	return this->set_data(source, 0, std::string::npos);
 }
 
 
-/**
- * \brief Returns \ref barcode::data.
+/** \brief Returns \ref barcode::data.
  *
  *
  * \return Returns \ref barcode::data.
- *
- *
- * \include barcode/data/get_data.cpp
  */
 std::string barcode::get_data ()
 {
