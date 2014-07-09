@@ -20,7 +20,6 @@
 
 #include <exception>
 #include <iostream>
-#include <string>
 
 #include <barcode.hpp>
 
@@ -29,16 +28,11 @@
 int main ()
 {
 	try {
-		// set source to be set in barcode
-		std::string source = "0123abcdABCD+-*/";
+		// try to construct empty object
+		barcode t;
 
-		// try to set data
-		barcode t(source);
-
-		if (t.get_data() == source) {
-			std::cout << "success: data could be assigned via set_data(source)" << std::endl;
-			return 0;
-		} else std::cerr << "failure: data got by get_data() was not the same as assigned!" << std::endl;
+		std::cout << "success: barcode object could be constructed." << std::endl;
+		return 0;
 	} catch (std::exception &ex) {
 		// an error occured in set_data()
 		std::cerr << "failure: exception: " << ex.what() << std::endl;

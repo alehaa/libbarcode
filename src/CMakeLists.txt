@@ -25,15 +25,15 @@ set (CMAKE_CXX_FLAGS "-fPIC")
 
 # recurse into subdirectories
 add_subdirectory(barcode_base)
-add_subdirectory(barcode_numeric)
-add_subdirectory(gtin)
+#add_subdirectory(barcode_numeric)
+#add_subdirectory(gtin)
 
 
 # build libbarcode
 add_library(barcode SHARED
 	$<TARGET_OBJECTS:barcode_base>
-	$<TARGET_OBJECTS:barcode_numeric>
-	$<TARGET_OBJECTS:barcode_gtin>
+#	$<TARGET_OBJECTS:barcode_numeric>
+#	$<TARGET_OBJECTS:barcode_gtin>
 )
 
 install(TARGETS barcode DESTINATION lib)

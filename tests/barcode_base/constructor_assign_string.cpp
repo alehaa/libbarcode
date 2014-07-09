@@ -18,10 +18,9 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#include <cstddef>
+#include <string>
 #include <exception>
 #include <iostream>
-#include <string>
 
 #include <barcode.hpp>
 
@@ -29,24 +28,18 @@
 
 int main ()
 {
-	barcode t;
-
-	// use try-catch to catch errors while setting data
 	try {
+		// string to test assign
 		std::string source = "0123abcdABCD+-*/";
 
-		// try to set data
-		size_t subpos = 4;
-		size_t sublen = 5;
-		size_t num = t.set_data(source, subpos, sublen);
+		// try to construct empty object
+		barcode t(source);
 
-		// did everything worked fine?
-		if (num == sublen) return 0;
-		else std::cerr << "Error in set_data(): returned length didn't match sublen!" << std::endl;
-
-	} catch (std::invalid_argument &ex) {
+		std::cout << "success: barcode object could be constructed with string assignment." << std::endl;
+		return 0;
+	} catch (std::exception &ex) {
 		// an error occured in set_data()
-		std::cerr << "Invalid argument: " << ex.what() << std::endl;
+		std::cerr << "failure: exception: " << ex.what() << std::endl;
 	}
 
 	// an error occured

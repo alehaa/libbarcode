@@ -18,14 +18,20 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#include <stdexcept>
-#include <string>
-
 #include "barcode.hpp"
 
 
 
-/** \brief Copies the string referenced by \p source into \ref data.
+/** \brief Constructs a \ref barcode object.
+ *
+ */
+barcode::barcode ()
+{
+}
+
+
+/** \brief Constructs a \ref barcode object, initializing the value of \ref data
+ *  with \p source.
  *
  *  If \ref charset is not empty, \p source will be checked, if it only contains
  *  characters listed in \ref charset.
@@ -33,7 +39,6 @@
  *
  * \param source std::string to be copied.
  *
- * \return *this
  *
  * \throw std::invalid_argument If \p source contains unallowed characters an
  *  invalid_argument exception is thrown.
@@ -44,18 +49,22 @@
  * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
  *  to allocate storage and fails.
  */
-barcode& barcode::assign_data (const std::string &source)
+barcode::barcode (const std::string& source)
 {
-	// pass through
-	return this->assign_data(source, 0, std::string::npos);
+	// call "empty" constructor
+	barcode();
+
+	/* initialisize data with source
+	 *
+	 * this assign could throw exceptions. See assign_data()
+	 */
+	this->assign_data(source);
 }
 
 
-/** \brief Copies the first \p sublen characters of \p source starting at
- *  position \p subpos into \ref data.
- *
- * \details Copies the first \p sublen characters of \p source starting at
- *  position \p subpos referenced by \p source into \ref data.
+/** \brief Constructs a \ref barcode object, initializing the value of \ref data
+ *  with the first \p sublen characters of \p source starting at position \p
+ *  subpos.
  *
  *  If \ref charset is not empty, \p source will be checked, if it only contains
  *  characters listed in \ref charset.
@@ -63,12 +72,11 @@ barcode& barcode::assign_data (const std::string &source)
  *
  * \param source std::string to be copied.
  * \param subpos Position of the first character in \p source that is copied to
- *  \ref data as a substring.
+ *  \ref barcode::data as a substring.
  * \param sublen Length of the substring to be copied (if \p source is shorter,
  *  as many characters as possible are copied).
  *  A value of string::npos indicates all characters until the end of str.
  *
- * \return *this
  *
  * \throw std::invalid_argument If \p source contains unallowed characters an
  *  invalid_argument exception is thrown.
@@ -79,35 +87,14 @@ barcode& barcode::assign_data (const std::string &source)
  * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
  *  to allocate storage and fails.
  */
-barcode& barcode::assign_data (const std::string& source, size_t subpos, size_t sublen)
+barcode::barcode (const std::string& source, size_t subpos, size_t sublen)
 {
-	/* copy source into internal memory
+	// call "empty" constructor
+	barcode();
+
+	/* initialisize data with source
 	 *
-	 * this assign could throw exceptions. See documentation of std::string
+	 * this assign could throw exceptions. See assign_data()
 	 */
-	this->data.assign(source, subpos, sublen);
-
-	/* if data_allowed_characters contains any restrictions for characters, that
-	 * are the only allowed characters to be in source, check if only allowed
-	 * characters are in source (now stored in data!)
-	 */
-	if (!this->charset.empty()) {
-		if (this->data.find_first_not_of(this->charset) != std::string::npos) {
-			throw std::invalid_argument("source contains unallowed character");
-		}
-	}
-
-	// return reference to this object
-	return *this;
-}
-
-
-/** \brief Returns \ref barcode::data.
- *
- *
- * \return Returns \ref barcode::data.
- */
-std::string barcode::get_data () const
-{
-	return this->data;
+	this->assign_data(source, subpos, sublen);
 }

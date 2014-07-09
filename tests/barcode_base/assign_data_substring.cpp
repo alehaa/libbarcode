@@ -18,9 +18,9 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
+#include <string>
 #include <exception>
 #include <iostream>
-#include <string>
 
 #include <barcode.hpp>
 
@@ -33,12 +33,11 @@ int main ()
 		std::string source = "0123abcdABCD+-*/";
 
 		// try to set data
-		barcode t(source);
+		barcode t;
+		t.assign_data(source, 4, 3);
 
-		if (t.get_data() == source) {
-			std::cout << "success: data could be assigned via set_data(source)" << std::endl;
-			return 0;
-		} else std::cerr << "failure: data got by get_data() was not the same as assigned!" << std::endl;
+		std::cout << "success: data could be assigned via set_data(source, subpos, sublen)" << std::endl;
+		return 0;
 	} catch (std::exception &ex) {
 		// an error occured in set_data()
 		std::cerr << "failure: exception: " << ex.what() << std::endl;

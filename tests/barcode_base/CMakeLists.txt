@@ -23,9 +23,17 @@
 include_directories("${PROJECT_SOURCE_DIR}/src/barcode_base")
 
 
+# test constructor
+addSimpleTest("barcode_constructor" "constructor.cpp" "")
+addSimpleTest("barcode_constructor_string" "constructor_assign_string.cpp" "")
+addSimpleTest("barcode_constructor_substring" "constructor_assign_substring.cpp" "")
+
+# test of operators
+addSimpleTest("barcode_operator_assign" "operator_assign_string.cpp" "")
+
 # test of function set_data()
-addSimpleTest("barcode_set_data_string" "set_data_string.cpp" "")
-addSimpleTest("barcode_set_data_substring" "set_data_substring.cpp" "")
+addSimpleTest("barcode_assign_data_string" "assign_data_string.cpp" "")
+addSimpleTest("barcode_assign_data_substring" "assign_data_substring.cpp" "")
 
 # test of function get_data()
 addSimpleTest("barcode_get_data" "get_data.cpp" "")

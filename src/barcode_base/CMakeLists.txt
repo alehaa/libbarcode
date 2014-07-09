@@ -20,8 +20,12 @@
 
 
 # compile class barcode
-add_library(barcode_base OBJECT data.cpp)
+add_library(barcode_base OBJECT
+	barcode.cpp
+	data.cpp
+	operator.cpp
+)
 
 
 # install header
-install(FILES "barcode.hpp" DESTINATION include RENAME "base.hpp")
+install(FILES "barcode.hpp" DESTINATION include RENAME "barcode.hpp")

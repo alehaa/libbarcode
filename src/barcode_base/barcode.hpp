@@ -18,8 +18,8 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
+#include <string>
 #include <cstddef>
-#include <stdexcept>
 
 
 
@@ -28,16 +28,24 @@
 
 class barcode {
 	public:
-		size_t set_data (const std::string &source);
-		size_t set_data (const std::string &source, size_t subpos, size_t sublen);
-		std::string get_data ();
+		barcode ();
+		barcode (const std::string& source);
+		barcode (const std::string& source, size_t subpos, size_t sublen);
+
+		barcode& operator= (const std::string& source);
+
+		barcode& assign_data (const std::string& source);
+		barcode& assign_data (const std::string& source, size_t subpos, size_t sublen);
+
+		std::string get_data () const;
 
 	protected:
 		std::string data;
 		/**< Internal storage for data */
-		std::string data_allowed_characters;
+		std::string charset;
 		/**< String containing all characters that are allowed to be used in
-		 * \ref data */
+		 * \ref data or any other storage for data entrys that could be encoded
+		 * as barcode */
 };
 
 #endif
