@@ -18,10 +18,9 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#include <cstddef>
+#include <string>
 #include <exception>
 #include <iostream>
-#include <string>
 
 #include <numeric.hpp>
 
@@ -29,28 +28,18 @@
 
 int main ()
 {
-	barcode_numeric t;
-
-	// use try-catch to catch errors while setting data
 	try {
-		std::string source = "0123456789";
+		// set source to be set in barcode
+		std::string source = "+012a345A6789ß";
 
 		// try to set data
-		size_t num = t.set_data(source);
+		barcode_numeric t(source);
 
-		// source should not be accepted!
-		if (num == source.length()) {
-			std::cout << "source was accepted. Test passed!" << std::endl;
-			return 0;
-		} else {
-			std::cerr << "source was not accepted. Test failed!" << std::endl;
-			return 1;
-		}
-
-	} catch (std::invalid_argument &ex) {
+		std::cout << "failure: data was accepted, but shouldn't!" << std::endl;
+	} catch (std::exception &ex) {
 		// an error occured in set_data()
-		std::cerr << "source was not accepted: Test failed!" << std::endl;
-		return 1;
+		std::cerr << "sucess: exception: " << ex.what() << " (data shouldn't be accepted!)" << std::endl;
+		return 0;
 	}
 
 	// an error occured

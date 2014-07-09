@@ -23,7 +23,6 @@
 
 
 /** \brief Constructs a \ref barcode object.
- *
  */
 barcode::barcode ()
 {
@@ -33,12 +32,13 @@ barcode::barcode ()
 /** \brief Constructs a \ref barcode object, initializing the value of \ref data
  *  with \p source.
  *
+ * \details Constructs a \ref barcode object, initializing the value of \ref
+ *  data with \p source.
  *  If \ref charset is not empty, \p source will be checked, if it only contains
  *  characters listed in \ref charset.
  *
  *
  * \param source std::string to be copied.
- *
  *
  * \throw std::invalid_argument If \p source contains unallowed characters an
  *  invalid_argument exception is thrown.
@@ -51,9 +51,6 @@ barcode::barcode ()
  */
 barcode::barcode (const std::string& source)
 {
-	// call "empty" constructor
-	barcode();
-
 	/* initialisize data with source
 	 *
 	 * this assign could throw exceptions. See assign_data()
@@ -66,6 +63,9 @@ barcode::barcode (const std::string& source)
  *  with the first \p sublen characters of \p source starting at position \p
  *  subpos.
  *
+ * \details Constructs a \ref barcode object, initializing the value of \ref
+ *  data with the first \p sublen characters of \p source starting at position
+ *  \p subpos.
  *  If \ref charset is not empty, \p source will be checked, if it only contains
  *  characters listed in \ref charset.
  *
@@ -76,7 +76,6 @@ barcode::barcode (const std::string& source)
  * \param sublen Length of the substring to be copied (if \p source is shorter,
  *  as many characters as possible are copied).
  *  A value of string::npos indicates all characters until the end of str.
- *
  *
  * \throw std::invalid_argument If \p source contains unallowed characters an
  *  invalid_argument exception is thrown.
@@ -89,9 +88,6 @@ barcode::barcode (const std::string& source)
  */
 barcode::barcode (const std::string& source, size_t subpos, size_t sublen)
 {
-	// call "empty" constructor
-	barcode();
-
 	/* initialisize data with source
 	 *
 	 * this assign could throw exceptions. See assign_data()

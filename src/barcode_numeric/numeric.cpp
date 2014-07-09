@@ -22,12 +22,83 @@
 
 
 
-/** \brief Construct \ref barcode_numeric object.
- *
- * \details Constructs a \ref barcode_numeric object, initializing \ref
- *  barcode::data_allowed_characters to numeric only.
+/** \brief Constructs a \ref barcode_numeric object.
  */
-barcode_numeric::barcode_numeric () : barcode()
+barcode_numeric::barcode_numeric ()
 {
-	this->data_allowed_characters = "0123456789";
+	// set charset
+	this->charset = "0123456789";
+}
+
+
+/** \brief Constructs a \ref barcode_numeric object, initializing the value of
+ *  \ref data with \p source.
+ *
+ * \details Constructs a \ref barcode_numeric object, initializing the value of
+ *  \ref data with \p source.
+ *  \p source will be checked, if it only contains integers, as \ref charset
+ *  only contains integers.
+ *
+ *
+ * \param source std::string to be copied.
+ *
+ * \throw std::invalid_argument If \p source contains unallowed characters an
+ *  invalid_argument exception is thrown.
+ * \throw std::out_of_range If \p subpos is greater than \p source's length,
+ *  an out_of_range exception is thrown.
+ * \throw std::length_error If the resulting string length would exceed the
+ *  max_size of \ref data, a length_error exception is thrown.
+ * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
+ *  to allocate storage and fails.
+ */
+barcode_numeric::barcode_numeric (const std::string& source)
+{
+	// set charset
+	this->charset = "0123456789";
+
+	/* initialisize data with source
+	 *
+	 * this assign could throw exceptions. See assign_data()
+	 */
+	this->assign_data(source);
+}
+
+
+/** \brief Constructs a \ref barcode_numeric object, initializing the value of
+ *  \ref data with the first \p sublen characters of \p source starting at
+ *  position \p subpos.
+ *
+ * \details Constructs a \ref barcode_numeric object, initializing the value of
+ *  \ref data with the first \p sublen characters of \p source starting at
+ *  position \p subpos.
+ *  \p source will be checked, if it only contains integers, as \ref charset
+ *  only contains integers.
+ *
+ *
+ * \param source std::string to be copied.
+ * \param subpos Position of the first character in \p source that is copied to
+ *  \ref barcode::data as a substring.
+ * \param sublen Length of the substring to be copied (if \p source is shorter,
+ *  as many characters as possible are copied).
+ *  A value of string::npos indicates all characters until the end of str.
+ *
+ * \throw std::invalid_argument If \p source contains unallowed characters an
+ *  invalid_argument exception is thrown.
+ * \throw std::out_of_range If \p subpos is greater than \p source's length,
+ *  an out_of_range exception is thrown.
+ * \throw std::length_error If the resulting string length would exceed the
+ *  max_size of \ref data, a length_error exception is thrown.
+ * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
+ *  to allocate storage and fails.
+ */
+barcode_numeric::barcode_numeric (const std::string& source, size_t subpos, size_t sublen)
+{
+	// set charset
+	this->charset = "0123456789";
+
+	/* initialisize data with source
+	 *
+	 * this assign could throw exceptions. See assign_data()
+	 */
+	this->assign_data(source, subpos, sublen);
 }

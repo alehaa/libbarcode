@@ -1,4 +1,4 @@
-/* This file is part of libbarcode.
+/** This \file is part of libbarcode.
  *
  * libbarcode is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -18,20 +18,30 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#ifndef LIBBARCODE_NUMERIC_H
-#define LIBBARCODE_NUMERIC_H
-
 #include <string>
-#include <cstddef>
+#include <exception>
+#include <iostream>
 
-#include <barcode.hpp>
+#include <numeric.hpp>
 
 
-class barcode_numeric : public barcode {
-	public:
-		barcode_numeric ();
-		barcode_numeric (const std::string& source);
-		barcode_numeric (const std::string& source, size_t subpos, size_t sublen);
-};
 
-#endif
+int main ()
+{
+	try {
+		// string to test assign
+		std::string source = "0123456789";
+
+		// try to construct empty object
+		barcode_numeric t(source, 5, 4);
+
+		std::cout << "success: barcode object could be constructed with substring assignment." << std::endl;
+		return 0;
+	} catch (std::exception &ex) {
+		// an error occured in set_data()
+		std::cerr << "failure: exception: " << ex.what() << std::endl;
+	}
+
+	// an error occured
+	return 1;
+}

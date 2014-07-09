@@ -26,4 +26,4 @@ add_library(barcode_numeric OBJECT numeric.cpp)
 
 
 # install header
-install(FILES "numeric.hpp" DESTINATION include)
+install(FILES "numeric.hpp" DESTINATION include/barcode)

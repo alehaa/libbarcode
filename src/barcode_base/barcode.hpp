@@ -18,13 +18,12 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
+#ifndef LIBBARCODE_H
+#define LIBBARCODE_H
+
 #include <string>
 #include <cstddef>
 
-
-
-#ifndef LIBBARCODE_H
-#define LIBBARCODE_H
 
 class barcode {
 	public:

@@ -28,4 +28,4 @@ add_library(barcode_base OBJECT
 
 
 # install header
-install(FILES "barcode.hpp" DESTINATION include RENAME "barcode.hpp")
+install(FILES "barcode.hpp" DESTINATION include/barcode)
