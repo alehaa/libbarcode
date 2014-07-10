@@ -25,13 +25,6 @@ include_directories("${PROJECT_SOURCE_DIR}/src/barcode_numeric")
 include_directories("${PROJECT_SOURCE_DIR}/src/gtin")
 
 
-# test of function set_data()
-addTestExecutable("barcode_gtin_set_data_valid" "set_data_valid.cpp")
-foreach (i 7 8 11 12 13 14 15 18)
-	addSimpleTestByTarget ("barcode_gtin_set_data_valid_${i}" "barcode_gtin_set_data_valid" "${i}")
-endforeach ()
-
-addTestExecutable("barcode_gtin_set_data_invalid" "set_data_invalid.cpp")
-foreach (i 5 6 9 10 16 17 19 20)
-	addSimpleTestByTarget ("barcode_gtin_set_data_invalid_${i}" "barcode_gtin_set_data_invalid" "${i}")
-endforeach ()
+# test assignment
+addSimpleTest("gtin_assign_valid" "assign_data_valid.cpp" "")
+addSimpleTest("gtin_assign_invalid" "assign_data_invalid.cpp" "")

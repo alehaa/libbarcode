@@ -22,7 +22,10 @@
 # compile class barcode
 include_directories("${PROJECT_SOURCE_DIR}/src/barcode_base")
 
-add_library(barcode_numeric OBJECT numeric.cpp)
+add_library(barcode_numeric OBJECT
+	numeric.cpp
+	data.cpp
+)
 
 
 # install header

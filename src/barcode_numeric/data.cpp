@@ -18,37 +18,25 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#ifndef LIBBARCODE_H
-#define LIBBARCODE_H
-
+#include <stdexcept>
 #include <string>
-#include <cstddef>
+
+#include "numeric.hpp"
 
 
-class barcode {
-	public:
-		barcode ();
-		barcode (const std::string& source);
-		barcode (const std::string& source, size_t subpos, size_t sublen);
+/** \brief Checks, if data copied to \ref data is valid.
+ *
+ * \details This function checks, if \p source only contains digits.
+ *
+ *
+ * \param source std::string thaat should be checked.
+ *
+ * \return Returns true, if \p source only contains digits.
+ */
+#include <iostream>
+bool barcode_numeric::check_data (const std::string &source) const
+{
+	std::cout << "numeric: " << source << std::endl;
 
-		barcode& operator= (const std::string& source);
-
-
-		barcode& assign_data (const std::string& source);
-		barcode& assign_data (const std::string& source, size_t subpos, size_t sublen);
-
-		std::string get_data () const;
-
-	protected:
-		std::string data;
-		/**< Internal storage for data */
-
-		bool check_data (const std::string& source) const;
-
-	//	std::string charset;
-		/**< String containing all characters that are allowed to be used in
-		 * \ref data or any other storage for data entrys that could be encoded
-		 * as barcode */
-};
-
-#endif
+	return false;
+}

@@ -47,7 +47,7 @@
  * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
  *  to allocate storage and fails.
  */
-size_t barcode_gtin::set_data (const std::string &source, size_t subpos, size_t sublen)
+/*size_t barcode_gtin::set_data (const std::string &source, size_t subpos, size_t sublen)
 {
 	// is length of source ok?
 	size_t len = source.length();
@@ -56,7 +56,7 @@ size_t barcode_gtin::set_data (const std::string &source, size_t subpos, size_t 
 
 	// cxall inherited set_data
 	return barcode_numeric::set_data(source, subpos, sublen);
-}
+}*/
 
 
 /** \brief Copies string \p source into internal memory.
@@ -77,7 +77,8 @@ size_t barcode_gtin::set_data (const std::string &source, size_t subpos, size_t 
  * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
  *  to allocate storage and fails.
  */
-size_t barcode_gtin::set_data (const std::string &source)
+/*size_t barcode_gtin::set_data (const std::string &source)
 {
 	return this->set_data(source, 0, std::string::npos);
 }
+*/

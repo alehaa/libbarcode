@@ -24,7 +24,9 @@ include_directories("${PROJECT_SOURCE_DIR}/src/barcode_base")
 include_directories("${PROJECT_SOURCE_DIR}/src/barcode_numeric")
 
 add_library(barcode_gtin OBJECT
-	data.cpp
+	gtin.cpp
+#	data.cpp
+#	checksum.cpp
 )
 
 

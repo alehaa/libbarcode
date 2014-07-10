@@ -29,13 +29,21 @@
 
 class barcode_gtin : public barcode_numeric {
 	public:
-		size_t set_data (const std::string &source);
-		size_t set_data (const std::string &source, size_t subpos, size_t sublen);
+		barcode_gtin ();
+		barcode_gtin (const std::string& source);
+		barcode_gtin (const std::string& source, size_t subpos, size_t sublen);
+
+//		size_t set_addon_code (const std::string &source);
+//		size_t set_addon_code (const std::string &source, size_t subpos, size_t sublen);
+//		size_t get_addon_code ();
+
+//		bool is_valid ();
 
 	protected:
+		std::string data_addon_code;
 
 	private:
-
+//		char checksum (size_t offset);
 };
 
 #endif

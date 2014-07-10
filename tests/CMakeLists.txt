@@ -82,4 +82,4 @@ endfunction (addSimpleTest)
 # recurse into subdirectories
 add_subdirectory(barcode_base)
 add_subdirectory(barcode_numeric)
-#add_subdirectory(gtin)
+add_subdirectory(gtin)

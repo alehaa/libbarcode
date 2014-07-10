@@ -32,6 +32,9 @@ class barcode_numeric : public barcode {
 		barcode_numeric ();
 		barcode_numeric (const std::string& source);
 		barcode_numeric (const std::string& source, size_t subpos, size_t sublen);
+
+	protected:
+		bool check_data (const std::string& source) const;
 };
 
 #endif

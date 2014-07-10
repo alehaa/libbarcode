@@ -24,12 +24,29 @@
 #include "barcode.hpp"
 
 
+/** \brief Checks, if data copied to \ref data is valid.
+ *
+ * \details Different barcode-classes could use this function to implement their
+ *  own checks to validate \p source.
+ *  In this class this is only a dummy function.
+ *
+ *
+ * \param source std::string thaat should be checked.
+ *
+ * \return This function always returns true.
+ */
+#include <iostream>
+bool barcode::check_data (const std::string &source) const
+{
+	std::cout << "base: " << source << std::endl;
+	return true;
+}
+
 
 /** \brief Copies the string referenced by \p source into \ref data.
  *
- *  If \ref charset is not empty, \p source will be checked, if it only contains
- *  characters listed in \ref charset.
- *
+ * \details Checks \p source with \ref check_data. If check is passed, \p source
+ *  will be copied to \ref data.
  *
  * \param source std::string to be copied.
  *
@@ -43,22 +60,38 @@
  *  max_size of \ref data, a length_error exception is thrown.
  * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
  *  to allocate storage and fails.
+ *
+ * \see check_data for exceptions thrown by \ref check_data.
  */
 barcode& barcode::assign_data (const std::string &source)
 {
-	// pass through
-	return this->assign_data(source, 0, std::string::npos);
+	/* Check source, if it is valid.
+	 *
+	 * This function could throw an exception. See documentation of this
+	 * function. In case of check_data has thown no exception, an invalid_data
+	 * exception will be thrown.
+	 */
+	if (!this->check_data(source)) {
+		throw std::invalid_argument("source is invalid");
+	}
+
+	/* copy source into internal memory
+	 *
+	 * this assign could throw exceptions. See documentation of std::string
+	 */
+	this->data = source;
+
+	// return reference to this object
+	return *this;
 }
 
 
 /** \brief Copies the first \p sublen characters of \p source starting at
  *  position \p subpos into \ref data.
  *
- * \details Copies the first \p sublen characters of \p source starting at
- *  position \p subpos referenced by \p source into \ref data.
- *
- *  If \ref charset is not empty, \p source will be checked, if it only contains
- *  characters listed in \ref charset.
+ * \details Checks \p source with \ref check_data. If check is passed, the first
+ *  \p sublen characters of \p source starting at position \p subpos referenced
+ *  by \p source will be copied to \ref data.
  *
  *
  * \param source std::string to be copied.
@@ -81,24 +114,14 @@ barcode& barcode::assign_data (const std::string &source)
  */
 barcode& barcode::assign_data (const std::string& source, size_t subpos, size_t sublen)
 {
-	/* copy source into internal memory
+	/* Pass temp to assign_data (with one argument only).
 	 *
-	 * this assign could throw exceptions. See documentation of std::string
+	 * Source will be copied into an temporary string. This assign could throw
+	 * exceptions. See documentation of std::string.
+	 * This temporary string will be passed to assign_data (with one argument
+	 * only).
 	 */
-	this->data.assign(source, subpos, sublen);
-
-	/* if data_allowed_characters contains any restrictions for characters, that
-	 * are the only allowed characters to be in source, check if only allowed
-	 * characters are in source (now stored in data!)
-	 */
-	if (!this->charset.empty()) {
-		if (this->data.find_first_not_of(this->charset) != std::string::npos) {
-			throw std::invalid_argument("source contains unallowed character");
-		}
-	}
-
-	// return reference to this object
-	return *this;
+	return this->assign_data(std::string(source, subpos, sublen));
 }
 
 

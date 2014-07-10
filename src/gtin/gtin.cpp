@@ -18,21 +18,21 @@
  *  2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#include "numeric.hpp"
+#include "gtin.hpp"
 
 
 
-/** \brief Constructs a \ref barcode_numeric object.
+/** \brief Constructs a \ref barcode_gtin object.
  */
-barcode_numeric::barcode_numeric () : barcode()
+barcode_gtin::barcode_gtin () : barcode_numeric()
 {
 }
 
 
-/** \brief Constructs a \ref barcode_numeric object, initializing the value of
+/** \brief Constructs a \ref barcode_gtin object, initializing the value of
  *  \ref data with \p source.
  *
- * \details Constructs a \ref barcode_numeric object, initializing the value of
+ * \details Constructs a \ref barcode_gtin object, initializing the value of
  *  \ref data with \p source.
  *  \p source will be checked, if it only contains integers, as \ref charset
  *  only contains integers.
@@ -49,16 +49,16 @@ barcode_numeric::barcode_numeric () : barcode()
  * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
  *  to allocate storage and fails.
  */
-barcode_numeric::barcode_numeric (const std::string& source) : barcode(source)
+barcode_gtin::barcode_gtin (const std::string& source) : barcode_numeric(source)
 {
 }
 
 
-/** \brief Constructs a \ref barcode_numeric object, initializing the value of
+/** \brief Constructs a \ref barcode_gtin object, initializing the value of
  *  \ref data with the first \p sublen characters of \p source starting at
  *  position \p subpos.
  *
- * \details Constructs a \ref barcode_numeric object, initializing the value of
+ * \details Constructs a \ref barcode_gtin object, initializing the value of
  *  \ref data with the first \p sublen characters of \p source starting at
  *  position \p subpos.
  *  \p source will be checked, if it only contains integers, as \ref charset
@@ -81,6 +81,6 @@ barcode_numeric::barcode_numeric (const std::string& source) : barcode(source)
  * \throw std::bad_alloc A bad_alloc exception is thrown if the function needs
  *  to allocate storage and fails.
  */
-barcode_numeric::barcode_numeric (const std::string& source, size_t subpos, size_t sublen) : barcode(source, subpos, sublen)
+barcode_gtin::barcode_gtin (const std::string& source, size_t subpos, size_t sublen) : barcode_numeric(source, subpos, sublen)
 {
 }
