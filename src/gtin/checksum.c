@@ -66,14 +66,14 @@ barcode_gtin_checksum (const char *src, size_t trim)
 	 * devided by modulo 10.
 	 */
 	bool multiply = true;
-	char checksum = 0;
-	for (const char *p = src + l - trim; p >= src; p--) {
-		if (multiply) checksum += *p * 3;
-		else checksum += *p;
+	unsigned char checksum = 0;
+	for (const char *p = src + l - trim - 1; p >= src; p--) {
+		if (multiply) checksum += (*p - 48) * 3;
+		else checksum += (*p - 48);
 
 		multiply = !multiply;
 	}
 
-
-	return ((-checksum % 10) % 10);
+	// return checksum
+	return (char) (10 - checksum % 10) % 10 + 48;
 }

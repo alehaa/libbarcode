@@ -24,6 +24,7 @@
 add_library(barcode-gtin SHARED
 	checksum.c
 	validate_charset.c
+	validate_length.c
 	validate.c
 )
 

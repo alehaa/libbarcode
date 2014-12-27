@@ -29,10 +29,11 @@
 /* function declarations
  */
 bool barcode_gtin_validate_charset (const char* src);
+bool barcode_gtin_validate_length (const char* src);
 bool barcode_gtin_validate (const char* src);
 
-int barcode_gtin_encode (const char* src, const char* dest);
-int barcode_gtin_decode (const char* src, const char* dest);
+//int barcode_gtin_encode (const char* src, const char* dest);
+//int barcode_gtin_decode (const char* src, const char* dest);
 
 
 #endif // LIBBARCODE_GTIN_H

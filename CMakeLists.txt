@@ -35,3 +35,13 @@ project("libbarcode")
 # recurse into subdirectories
 #
 add_subdirectory(src)
+
+
+#
+# add test-cases, if option is set
+#
+option (ENABLE_TESTS "Selects whether tests are built." FALSE)
+if (ENABLE_TESTS)
+	enable_testing()
+	add_subdirectory(tests)
+endif (ENABLE_TESTS)
