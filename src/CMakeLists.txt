@@ -22,22 +22,13 @@
 
 
 #
+# variables for installation
+#
+set(LIBBARCODE_LIB_PATH "lib/barcode" CACHE PATH "Installation directory for libraries")
+set(LIBBARCODE_INC_PATH "include/barcode" CACHE PATH "Installation directory for headers")
+
+
+#
 # recurse into subdirectories
 #
 add_subdirectory(gtin)
-
-
-# build libbarcode
-add_library(barcode SHARED
-	gtin/gtin.cpp
-	gtin/gtin_chararray.cpp
-	gtin/gtin_checksum.cpp
-	gtin/gtin_data.cpp
-)
-
-set_target_properties(barcode PROPERTIES
-	VERSION 2.0.0
-	SOVERSION 2
-)
-
-install(TARGETS barcode DESTINATION lib)

@@ -17,45 +17,18 @@
  * Copyright 2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
  */
 
-#include "gtin.h"
+#ifndef LIBBARCODE_GTIN_CHECKSUM_H
+#define LIBBARCODE_GTIN_CHECKSUM_H
 
 
-
-/* constructor
- *
+/* include headers
  */
-barcode_gtin::barcode_gtin () {
-	conf_handle_addon_codes = true;
-
-	this->data_gtin = NULL;
-	this->data_addon_code = NULL;
-
-	this->clear();
-}
+#include <stddef.h>
 
 
-/* destructor
- *
- * delete all allocated memory blocks
+/* function declarations
  */
-barcode_gtin::~barcode_gtin () {
-	this->clear();
-}
+int barcode_gtin_checksum (const char *src, size_t num);
 
 
-/* enable_addon_codes
- *
- * enable handling of addon codes
- */
-void barcode_gtin::enable_addon_codes () {
-	this->conf_handle_addon_codes = true;
-}
-
-
-/* disable_addon_codes
- *
- * disable handling of addon codes
- */
-void barcode_gtin::disable_addon_codes () {
-	this->conf_handle_addon_codes = false;
-}
+#endif // LIBBARCODE_GTIN_CHECKSUM_H

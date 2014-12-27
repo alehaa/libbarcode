@@ -20,10 +20,21 @@
 #   2013-2014 Alexander Haase <alexander.haase@rwth-aachen.de>
 #
 
+# build libbarcode-gtin
+add_library(barcode-gtin SHARED
+	checksum.c
+	validate_charset.c
+	validate.c
+)
+
+# set SO-Version
+set_target_properties(barcode-gtin PROPERTIES
+	VERSION 1.0.0
+	SOVERSION 1
+)
+
+# install library
+install(TARGETS barcode-gtin DESTINATION ${LIBBARCODE_LIB_PATH})
 
 # install header file
-install(FILES
-	gtin.h
-
-	DESTINATION include/barcode
-)
+install(FILES gtin.h DESTINATION ${LIBBARCODE_INC_PATH})
